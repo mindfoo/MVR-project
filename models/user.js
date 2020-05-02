@@ -8,7 +8,7 @@ const userSchema = new Schema(
 		username: String,
 		email: String,
 		password: String,
-		playlist: [{ type: Schema.Types.ObjectId, ref: "playlist" }],
+		playlist: [{ type: Schema.Types.ObjectId, ref: "Playlist" }],
 	},
 	{
 		timestamps: {
