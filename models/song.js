@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 const songSchema = new Schema(
   {
-    Id: String,
     Artist: String,
     Album: String,
     Name: String,
