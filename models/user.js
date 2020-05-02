@@ -8,7 +8,6 @@ const userSchema = new Schema(
 		username: String,
 		email: String,
 		password: String,
-		playlist: [{ type: Schema.Types.ObjectId, ref: "Playlist" }],
 	},
 	{
 		timestamps: {
@@ -19,4 +18,4 @@ const userSchema = new Schema(
 );
 
 const User = mongoose.model("User", userSchema);
-module.exports = Playlist;
+module.exports = User;
