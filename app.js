@@ -9,6 +9,10 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+//using bootstrap in a cool way
+app.use(express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+
+
 // require spotify-web-api-node package here:
 const SpotifyWebApi = require('spotify-web-api-node');
 
