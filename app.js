@@ -9,6 +9,27 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+//using bootstrap in a cool way
+app.use(express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+
+
+// require spotify-web-api-node package here:
+const SpotifyWebApi = require('spotify-web-api-node');
+
+// 1. Setting the spotify-api goes here:
+const spotifyApi = new SpotifyWebApi({
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET
+});
+
+// 2. Retrieve an access token
+spotifyApi
+.clientCredentialsGrant()
+.then(data => spotifyApi.setAccessToken(data.body['access_token']))
+.catch(error => console.log('Something went wrong when retrieving an access token', error));
+
+
+
 
 mongoose
   .connect('mongodb://localhost/mvr-project', {useNewUrlParser: true})
