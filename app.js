@@ -8,6 +8,7 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const app = express();
 
 //using bootstrap in a cool way
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist/css'));
@@ -43,7 +44,7 @@ mongoose
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
-const app = express();
+
 
 // Middleware Setup
 app.use(logger('dev'));
