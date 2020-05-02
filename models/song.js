@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 const songSchema = new Schema(
   {
-    song_Id: String,
-    song_Artist: String,
-    song_Album: String,
-    song_Name: String,
-    song_Preview: String
+    Id: String,
+    Artist: String,
+    Album: String,
+    Name: String,
+    Preview: String
   },
     { 
       timestamps: {
