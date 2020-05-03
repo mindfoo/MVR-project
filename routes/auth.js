@@ -32,15 +32,24 @@ router.get("/logout", (req, res, next) => {
 
 // signup POST
 router.post("/signup", (req, res, next) => {
+	const firstName = req.body.firstName;
+	const lastName = req.body.lastName;
 	const username = req.body.username;
+	const email = req.body.email;
 	const password = req.body.password;
 	const salt = bcrypt.genSaltSync(bcryptSalt);
 	const hashPass = bcrypt.hashSync(password, salt);
 
-	//Making sure username and password are not empty
-	if (username === "" || password === "") {
+	//Making sure all the fields are fill
+	if (
+		firstName === "" ||
+		lastName === "" ||
+		username === "" ||
+		email === "" ||
+		password === ""
+	) {
 		res.render("auth/signup", {
-			errorMessage: "Indicate a username and password",
+			errorMessage: "Pls fill all the fields",
 		});
 		return;
 	}
@@ -52,7 +61,8 @@ router.post("/signup", (req, res, next) => {
 			});
 			return;
 		}
-		User.create({ username, password: hashPass })
+		
+		User.create({ firstName, lastName, username, email, password: hashPass })
 			.then(() => {
 				res.redirect("/");
 			})
@@ -83,7 +93,6 @@ router.post("/login", (req, res, next) => {
 			});
 		}
 		if (bcrypt.compareSync(password, user.password)) {
-			req.session.currentUser = user;
 			res.redirect("/");
 		} else {
 			res.render("auth/login", {

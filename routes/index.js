@@ -21,9 +21,9 @@ spotifyApi
 
 /* 0. GET home page */
 router.get('/', (req, res, next) => {
-  res.render('index');
+  res.render("index");
 });
-
+   
 
 // 1. GET artist search route
 
