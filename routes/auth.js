@@ -61,7 +61,7 @@ router.post("/signup", (req, res, next) => {
 			});
 			return;
 		}
-		
+
 		User.create({ firstName, lastName, username, email, password: hashPass })
 			.then(() => {
 				res.redirect("/");
@@ -93,6 +93,7 @@ router.post("/login", (req, res, next) => {
 			});
 		}
 		if (bcrypt.compareSync(password, user.password)) {
+			console.log("login done"); console.log(user)
 			res.redirect("/");
 		} else {
 			res.render("auth/login", {
