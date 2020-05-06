@@ -1,0 +1,16 @@
+
+<h1>The search results are: </h1>
+<div>
+    {{#each artists}}
+    Name: {{ name }}
+        {{#each images}}
+            {{#if @first}}
+                <img src="{{ url }}" width="200" alt="" />
+             {{/if}}
+        {{/each}}
+
+    <button onclick="window.location.href = '/tracks/{{id}}';">View tracks</button>
+    
+    {{/each}}
+</div>
+   

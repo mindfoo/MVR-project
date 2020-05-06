@@ -1,4 +1,4 @@
-<h1>{{title}}</h1>
+{{!-- <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
 
 	{{#if currentUser}}
@@ -11,4 +11,19 @@
 
 		{{#if currentUser}}
 	<a href="/logout">Logout</a>
-	{{/if}}
+	{{/if}} --}}
+
+
+
+
+<body>
+    <img src="images/spotify-background.jpeg" width="200" alt="">
+    <div>
+        <form action="/artist-search">
+        <label for="artname"></label><br>
+        <input type="text" id="artname" name="artname" placeholder="Radiohead">
+        <input type="submit" value="Submit">
+        </form> 
+    </div>
+</body>
+ 
