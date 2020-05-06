@@ -53,6 +53,21 @@ router.post("/signup", (req, res, next) => {
 		});
 		return;
 	}
+
+	//Making sure the email is valid
+	function validateEmail(email) {
+		const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		return mailFormat.test(email);
+	}
+	if (email != "") {
+		if(validateEmail(email) === false) {
+			res.render("auth/signup", {errorMessage: "Pls enter a valid email"})
+			return
+		} else {
+			res.render("/")
+		}
+	}
+
 	//Making sure that user doesn't exist already
 	User.findOne({ username: username }).then((user) => {
 		if (user !== null) {
