@@ -1,10 +1,23 @@
 <h1>Tracks</h1>
 
- {{#each allInfo.name }}
+ {{!-- {{#each allInfo.name }}
       <li> {{ this }}</li>
- {{/each}}
+ {{/each}} --}}
 
 
 {{!-- 
 form with checkboxes --}}
 {{!-- https://stackoverflow.com/questions/19001844/how-to-limit-the-number-of-selected-checkboxes --}}
+
+
+<form action="/add-playlist" method="POST">
+     {{#each allInfo.name }}
+
+          <input type="checkbox" id="" name = "song"  value = "{{ this }}">
+          <label for="" > {{ this }} </label><br>
+
+     {{/each}} 
+
+     <input type="submit" value="Submit">
+
+</form>
