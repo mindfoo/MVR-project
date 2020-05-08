@@ -5,12 +5,12 @@
  {{/each}} --}}
 
 
-{{!-- 
-form with checkboxes --}}
-{{!-- https://stackoverflow.com/questions/19001844/how-to-limit-the-number-of-selected-checkboxes --}}
+
+
 
 
 <form action="/add-playlist" method="POST">
+
      {{#each allInfo.name }}
 
           <input type="checkbox" id="" name = "song"  value = "{{ this }}">
@@ -21,3 +21,17 @@ form with checkboxes --}}
      <input type="submit" value="Submit">
 
 </form>
+
+{{!-- TO DO  
+
+     --> Create a FORM with 3 columns
+                   In the first the name of the songs (allInfo.name)
+                   In the second the preview of the songs (allInfo.preview)
+                   In the last one the checkboxes
+
+     -->  Impose 3 songs, not less, not more
+             form with checkboxes 
+             https://stackoverflow.com/questions/19001844/how-to-limit-the-number-of-selected-checkboxes
+                   
+--}}
+
