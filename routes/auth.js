@@ -1,8 +1,8 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
+const router = express.Router();
 const User = require("../models/user");
 
-const router = express.Router();
+const bcrypt = require("bcryptjs");
 const bcryptSalt = 10;
 
 //signup route
@@ -27,16 +27,62 @@ router.get("/login", (req, res, next) => {
 router.get("/logout", (req, res, next) => {
 	req.session.destroy(() => {
 		res.redirect("/");
+	}).catch((error) => {
+		next(error);
 	});
 });
 
+
+//login POST
+router.post("/login", (req, res, next) => {
+	const username = req.body.username;
+	const password = req.body.password;
+
+	//TODO add fallbacks
+	if (!username || !password) {
+		res.render("auth/login", {
+			errorMessage: "Indicate a username and password",
+		}).catch((error) => {
+			next(error);
+		});
+		return;
+	}
+
+	User.findOne({ username: username }).then((user) => {
+		//TODO check if the user exists
+		if (!user) {
+			res.render("auth/login", {
+				errorMessage: "The username doesn't exist",
+			}).catch((error) => {
+				next(error);
+			});
+		}
+		if (bcrypt.compareSync(password, user.password)) {
+			req.session.currentUser = user;
+			res.redirect("/");
+		} else {
+			res.render("auth/login", {
+				errorMessage: "Incorrect password",
+			}).catch((error) => {
+				next(error);
+			});
+		}
+	});
+});
+
+
+
 // signup POST
 router.post("/signup", (req, res, next) => {
+
+	
+
 	const firstName = req.body.firstName;
 	const lastName = req.body.lastName;
 	const username = req.body.username;
 	const email = req.body.email;
 	const password = req.body.password;
+
 	const salt = bcrypt.genSaltSync(bcryptSalt);
 	const hashPass = bcrypt.hashSync(password, salt);
 
@@ -49,7 +95,9 @@ router.post("/signup", (req, res, next) => {
 		password === ""
 	) {
 		res.render("auth/signup", {
-			errorMessage: "Pls fill all the fields",
+			errorMessage: "Pls fill all the fields"
+		}).catch((error) => {
+			next(error);
 		});
 		return;
 	}
@@ -59,12 +107,15 @@ router.post("/signup", (req, res, next) => {
 		const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 		return mailFormat.test(email);
 	}
+
 	if (email != "") {
 		if(validateEmail(email) === false) {
-			res.render("auth/signup", {errorMessage: "Pls enter a valid email"})
+			res.render("auth/signup", {
+				errorMessage: "Pls enter a valid email"
+			}).catch((error) => {
+				next(error);
+			});
 			return
-		} else {
-			res.render("/")
 		}
 	}
 
@@ -72,50 +123,25 @@ router.post("/signup", (req, res, next) => {
 	User.findOne({ username: username }).then((user) => {
 		if (user !== null) {
 			res.render("auth/signup", {
-				errorMessage: "The username already exists",
+				errorMessage: "The username already exists"
+			}).catch((error) => {
+				next(error);
 			});
 			return;
 		}
-
 		User.create({ firstName, lastName, username, email, password: hashPass })
-			.then(() => {
-				res.redirect("/");
-			})
-			.catch((error) => {
-				next(error);
-			});
-	});
-});
-
-//login POST
-router.post("/login", (req, res, next) => {
-	const username = req.body.username;
-	const password = req.body.password;
-
-	//TODO add fallbacks
-	if (!username || !password) {
-		res.render("auth/login", {
-			errorMessage: "Indicate a username and password",
-		});
-		return;
-	}
-
-	User.findOne({ username: username }).then((user) => {
-		//TODO check if the user exists
-		if (!user) {
-			res.render("auth/login", {
-				errorMessage: "The username doesn't exist",
-			});
-		}
-		if (bcrypt.compareSync(password, user.password)) {
-			req.session.currentUser = user;
+		.then(() => {
 			res.redirect("/");
-		} else {
-			res.render("auth/login", {
-				errorMessage: "Incorrect password",
-			});
-		}
+		})
+		.catch((error) => {
+			next(error);
+		});
+		
 	});
+
 });
+
+
+
 
 module.exports = router;
