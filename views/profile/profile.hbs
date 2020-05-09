@@ -1,6 +1,11 @@
 <h1>My profile route</h1>
 
 <div>
-	<p>username</p>
-	
+	<p>{{currentUser.firstName}}</p>
+	<p>{{currentUser.lastName}}</p>
+	<p>{{currentUser.username}}</p>
+	<p>{{currentUser.email}}</p>
+	<a href="/profile/edit?user_id={{currentUser._id}}">Edit</a>
 </div>
+
+<a href="/">Back to Main Page</a>

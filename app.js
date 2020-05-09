@@ -78,10 +78,9 @@ app.use("/", auth);
 const index = require('./routes/index');
 app.use('/', index);
 
+const profile = require("./routes/profile");
+app.use("/", profile);
 
-
-// const profile = require("./routes/profile");
-// app.use("/", profile);
 
 
 module.exports = app;
