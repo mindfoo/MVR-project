@@ -19,13 +19,28 @@ spotifyApi
 		console.log("Something went wrong when retrieving an access token", error)
 	);
 
+
+
+
 let artistname; //  we need the artist name (artname) in the router.post (/add-playlist) so we are making it global.
 // It is declared here and initialized in router.get(/artist-search)
 
 // Our routes go here:
 router.get("/", (req, res, next) => {
-	res.render("index");
+	const currentUser = req.session.currentUser;
+	res.render("index", {currentUser});
 });
+
+
+// CHECK if the user is logged in and send to secret
+router.use((req,res,next) => {
+	console.log(req.session.currentUser)
+	if (req.session.currentUser) {
+	  next();
+	} else {
+	  res.redirect('/login');
+	}
+  })
 
 // 1. Search artists and choose artist
 
@@ -135,9 +150,9 @@ router.post('/add-playlist', (req, res) => {
     }) 
   }
 
-    let newPlaylist = new Playlist ({artistName, songs, user})
-    newPlaylist.save()
-    .then()
+    // let newPlaylist = new Playlist ({artistName, songs, user})
+    // newPlaylist.save()
+    // .then()
 
 })
 

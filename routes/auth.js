@@ -23,14 +23,6 @@ router.get("/login", (req, res, next) => {
 	}
 });
 
-//Logout route
-router.get("/logout", (req, res, next) => {
-	req.session.destroy(() => {
-		res.redirect("/");
-	}).catch((error) => {
-		next(error);
-	});
-});
 
 
 //login POST
@@ -48,14 +40,12 @@ router.post("/login", (req, res, next) => {
 		return;
 	}
 
-	User.findOne({ username: username }).then((user) => {
+	User.findOne({ username: username }).then(user => {
 		//TODO check if the user exists
 		if (!user) {
 			res.render("auth/login", {
 				errorMessage: "The username doesn't exist",
-			}).catch((error) => {
-				next(error);
-			});
+			})
 		}
 		if (bcrypt.compareSync(password, user.password)) {
 			req.session.currentUser = user;
@@ -63,10 +53,17 @@ router.post("/login", (req, res, next) => {
 		} else {
 			res.render("auth/login", {
 				errorMessage: "Incorrect password",
-			}).catch((error) => {
-				next(error);
 			});
 		}
+	});
+});
+
+//Logout route
+router.get("/logout", (req, res, next) => {
+	req.session.destroy(() => {
+		res.redirect("/");
+	}).catch((error) => {
+		next(error);
 	});
 });
 
@@ -140,6 +137,8 @@ router.post("/signup", (req, res, next) => {
 	});
 
 });
+
+
 
 
 

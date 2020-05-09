@@ -1,9 +1,13 @@
+
+
+
 <form id="form" action="/login" method="POST">
   <h2>Login</h2>
   <label>Username</label>
   <input type="text" name="username" placeholder="Your username" >
   <label>Password</label>
   <input type="password" name="password" placeholder="******" >
+
   {{#if errorMessage}}
     <div class="error-message">{{ errorMessage }}</div>
   {{/if}}
