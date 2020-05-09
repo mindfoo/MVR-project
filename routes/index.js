@@ -103,29 +103,39 @@ router.get("/tracks/:id", (req, res) => {
 
 // 3. POST chosen songs to Database
 
-router.post("/add-playlist", (req, res) => {
-	console.log("I am on the add-playlist route");
-	console.log(artname);
-	const songs = req.body.song;
-	console.log(songs);
+router.post('/add-playlist', (req, res) => {
+  console.log("I am on the add-playlist route")
+  console.log(artname)
+  const songs = req.body.song; 
+  console.log(songs)
 
-	for (let i = 0; i < songs.length; i++) {
-		songName = songs[i];
-		artname = artname;
-		let newSong = new Song({ songName, artname });
-		newSong
-			.save()
-			.then(() => {
-				console.log("A new song was saved in the DB");
-				if (i + 1 === songs.length) {
-					res.redirect("/"); //  --> Se não utilizar o if dá o erro "Cannot set headers after they are sent to the client" apesar de gravar na DB
-					// deve ser o mesmo problema que acontecia em albumsId.forEach().
-				}
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	}
-});
+
+  let newSongsId = [];
+  for (let i = 0; i < songs.length; i++) {
+    songName = songs[i]
+    artname = artname;
+    let newSong = new Song({songName, artname});
+    newSong.save()
+    .then( () => {
+      console.log(newSong._id) 
+      newSongsId.push(newSong._id)   
+      console.log(newSongsId) 
+      console.log("A new song was saved in the DB")
+      if ( i + 1 === songs.length) {
+        res.redirect('/') //  --> Se não utilizar o if dá o erro "Cannot set headers after they are sent to the client" apesar de gravar na DB
+     // deve ser o mesmo problema que acontecia em albumsId.forEach().
+      }
+    })
+    .catch((error) => {
+            console.log(error);
+    }) 
+  }
+
+    let newPlaylist = new Playlist ({artistName, songs, user})
+    newPlaylist.save()
+    .then()
+
+})
+
 
 module.exports = router;
