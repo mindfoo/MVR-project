@@ -1,29 +1,15 @@
-{{!-- <h1>{{title}}</h1>
-<p>Welcome to {{title}}</p> --}}
+<h1>{{title}}</h1>
+<p>Welcome to {{title}}</p>
 
-	{{!-- {{#if currentUser}}
-<p>Welcome {{currentUser.username}}</p>
-	{{/if}} --}}
+{{#if currentUser}}
+    <p>Welcome {{currentUser.username}}</p>
+{{/if}}
+
 {{!-- go to create view just for testing purposes --}}
-{{!-- {{!-- <a href="/create-top">Go to create view!</a> --}}
-{{!-- <a href="/login">Go to login view!</a> --}}
-{{!-- <a href="/signup">Go to signup view!</a> --}} 
+<a href="/create-top">Go to create view!</a><br/><br/>
+<a href="/login">Go to login view!</a><br/><br/>
+<a href="/signup">Go to signup view!</a>
 
-		{{!-- {{#if currentUser}}
-	{{!-- <a href="/logout">Logout</a> --}}
-	 {{!-- {{ {{/if}}  --}}
-
-
-
-
-<body>
-    {{!-- <img src="images/spotify-background.jpeg" width="200" alt=""> --}}
-    <div>
-        <form action="/artist-search">
-        <label for="artname"></label><br>
-        <input type="text" id="artname" name="artname" placeholder="Radiohead">
-        <input type="submit" value="Submit">
-        </form> 
-    </div>
-</body>
- 
+{{#if currentUser}}
+    <a href="/logout">Logout</a>
+{{/if}}

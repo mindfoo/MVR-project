@@ -6,13 +6,6 @@ const playlistSchema = new Schema(
     artistName: String,
     songs: [{type: Schema.Types.ObjectId, ref: 'Song'}],
     user: [{type: Schema.Types.ObjectId, ref: 'User'}]
-  // createdBy: [{type: Schema.Types.ObjectId, ref: 'User'}],
-    // info: [
-    //   {
-    //     pictureUrl: String,
-    //     songs: [{type: Schema.Types.ObjectId, ref: 'Song'}]
-    //   }
-    // ]
   },
     { 
       timestamps: {

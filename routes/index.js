@@ -39,7 +39,7 @@ router.get("/artist-search", (req, res, next) => {
 			//  console.log('One of the items of the data: ', data.body.artists.items[0]);
 			let artists = data.body.artists.items;
 			//  console.log('sending data to artist-search results')
-			res.render("artist-search-results", { artists });
+			res.render("playlist/artist-search-results", { artists });
 			// console.log(artname)
 			return artname; // we need the artist name (artname) in the router.post (/add-playlist)
 		})
@@ -85,7 +85,7 @@ router.get("/tracks/:id", (req, res) => {
 						allTracks = new Set(allTracks); // remove os duplicados
 						allInfo.name = allTracks;
 						allInfo.preview = allPreview_url;
-						res.render("all-tracks", { allInfo });
+						res.render("playlist/all-tracks", { allInfo });
 					}
 					console.log(counter);
 					console.log(albumsIds.length);
