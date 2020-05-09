@@ -58,14 +58,6 @@ router.post("/login", (req, res, next) => {
 	});
 });
 
-//Logout route
-router.get("/logout", (req, res, next) => {
-	req.session.destroy(() => {
-		res.redirect("/");
-	}).catch((error) => {
-		next(error);
-	});
-});
 
 
 
@@ -139,7 +131,14 @@ router.post("/signup", (req, res, next) => {
 });
 
 
-
+//Logout route
+router.get("/logout", (req, res, next) => {
+	req.session.destroy(() => {
+		res.redirect("/");
+	}).catch((error) => {
+		next(error);
+	});
+});
 
 
 

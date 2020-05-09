@@ -2,11 +2,11 @@
 
 <form action="/add-playlist" method="POST">
 
-     {{#each allInfo.name }}
-
-          <input type="checkbox" id="" name = "song"  value = "{{ this }}">
-          <label for="" > {{ this }} </label><br>
-
+     <input type="text" name="artist_name" value={{ data.artist_name }} placeholder="{{ data.artist_name }}" />
+<br/>
+     {{#each data.allInfo.name }}
+          <input type="checkbox" id="song-single" name="song"  value="{{ this }}">
+          <label for="" > {{ this }} </label><br/>
      {{/each}} 
 
      <input type="submit" value="Submit">

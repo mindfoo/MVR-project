@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const playlistSchema = new Schema(
   {
-    artistName: String,
+    artistname: String,
     songs: [{type: Schema.Types.ObjectId, ref: 'Song'}],
     user: [{type: Schema.Types.ObjectId, ref: 'User'}]
   },
