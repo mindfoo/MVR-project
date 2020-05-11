@@ -7,7 +7,10 @@ const router = express.Router();
 router.get("/profile", (req, res, next) => {
 	try {
 		const currentUser = req.session.currentUser;
-		res.render("profile/profile", { currentUser });
+		User.findById(currentUser._id)
+		.then((theUser) => {
+			res.render("profile/profile", { theUser });
+		})
 	} catch (e) {
 		next(e);
 	}

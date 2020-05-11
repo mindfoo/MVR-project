@@ -29,21 +29,20 @@ router.get("/", (req, res, next) => {
 	res.render("index", { currentUser });
 });
 
-
 // CHECK if the user is logged in and send to secret
 router.use((req, res, next) => {
-	console.log(req.session.currentUser)
+	console.log(req.session.currentUser);
 	if (req.session.currentUser) {
 		next();
 	} else {
-		res.redirect('/login');
+		res.redirect("/login");
 	}
-})
+});
 
 // 1. Search artists and choose artist
 
 router.get("/artist-search", (req, res, next) => {
-	res.render("playlist/create-top")
+	res.render("playlist/create-top");
 });
 
 router.get("/artist-search-action", (req, res, next) => {
@@ -51,7 +50,7 @@ router.get("/artist-search-action", (req, res, next) => {
 	artistname = req.query.artistname;
 	spotifyApi
 		.searchArtists(artistname)
-		.then(data => {
+		.then((data) => {
 			//  console.log('The received data from the API: ', data.body);
 			//  console.log('One of the items of the data: ', data.body.artists.items[0]);
 			let artists = data.body.artists.items;
@@ -78,7 +77,7 @@ router.get("/tracks/:id", (req, res) => {
 			// console.log('The received data from the API: ', data.body.images);
 			// console.log('One of the items of the data: ', data.body.artists.items[0])});
 			let items = data.body.items;
-			console.log('DATA     ', data.body.items[0].artists[0].name)
+			console.log("DATA     ", data.body.items[0].artists[0].name);
 
 			artist_name = data.body.items[0].artists[0].name;
 			// console.log(items)
@@ -107,7 +106,7 @@ router.get("/tracks/:id", (req, res) => {
 						allInfo.preview = allPreview_url;
 						//console.log(allInfo);
 						let data = { allInfo, artist_name };
-						console.log('MAYBE', data)
+						console.log("MAYBE", data);
 						res.render("playlist/all-tracks", { data });
 					}
 					//console.log(counter);
@@ -126,35 +125,37 @@ router.get("/tracks/:id", (req, res) => {
 
 // 3. POST chosen songs to Database
 
-router.post('/add-playlist', (req, res, next) => {
-
+router.post("/add-playlist", (req, res, next) => {
 	const songs = req.body.song;
 	artistname = req.body.artist_name;
 
 	let user = req.session.currentUser._id;
-	const newPlaylist = new Playlist({ artistname, user })
+	const newPlaylist = new Playlist({ artistname, user });
 
-	newPlaylist.save()
+	newPlaylist
+		.save()
 		.then((playlist) => {
 			let newSongsId = [];
-			
+
 			for (let i = 0; i < songs.length; i++) {
 				songName = songs[i];
 				let newSong = new Song({ songName, artistname });
-				
-				newSong.save()
-					.then((result) => {				
-						newPlaylist.updateOne(( {artistname: "artistname"}, {$push: {songs:[result._id]}}) )
-						.then (playlist => {
-							console.log("Done")
-						})
-					})	
+
+				newSong.save().then((result) => {
+					newPlaylist
+						.updateOne(
+							({ artistname: "artistname" }, { $push: { songs: [result._id] } })
+						)
+						.then((playlist) => {
+							console.log("Done");
+						});
+				});
 			}
-			res.redirect('/') 
+			res.redirect("/");
 		})
 		.catch((error) => {
 			next(error);
 		});
-})
+});
 
 module.exports = router;
