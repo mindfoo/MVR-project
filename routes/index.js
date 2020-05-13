@@ -24,15 +24,23 @@ let artistname; //  we need the artist name (artname) in the router.post (/add-p
 // It is declared here and initialized in router.get(/artist-search)
 
 // Our routes go here:
+/* GET home page */
 router.get("/", (req, res, next) => {
-	const currentUser = req.session.currentUser;
+	let currentUser;
+	//Getting username from basic auth
+	if (req.session.currentUser) {
+		currentUser = req.session.currentUser.username;
+	}
+	//Getting username from passport
+	if (req.session.passport) {
+		currentUser = req.session.passport.user.username;
+	}
 	res.render("index", { currentUser });
 });
-
 // CHECK if the user is logged in and send to secret
 router.use((req, res, next) => {
 	console.log(req.session.currentUser);
-	if (req.session.currentUser) {
+	if (req.session.currentUser || req.session.passport) {
 		next();
 	} else {
 		res.redirect("/login");

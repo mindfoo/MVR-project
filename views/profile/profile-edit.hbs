@@ -1,6 +1,6 @@
 <h1>Edit Profile</h1>
 
-<form action="/profile/edit?user_id={{user._id}}" method="POST">
+<form action="/profile/edit?user_id={{user._id}}" method="POST" enctype="multipart/form-data">
   <label for="">Username</label>
   <input type="text" value="{{user.username}}" name="username">
 	<br>
@@ -13,6 +13,9 @@
 	<label for="">Email</label>
   <input type="email" value="{{user.email}}" name="email">
 	<br>
+  <label>Profile Image</label>
+  <input type="file" name="photo">
+  <br>
   <button type="submit">EDIT</button>
 </form>
 
