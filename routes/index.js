@@ -26,7 +26,17 @@ let artistname; //  we need the artist name (artname) in the router.post (/add-p
 // Our routes go here:
 router.get("/", (req, res, next) => {
 	const currentUser = req.session.currentUser;
-	res.render("index", { currentUser });
+
+	Playlist.find() 
+		.then(allPlaylistsForThisUser => {
+		res.render('index',  { currentUser, playlist: allPlaylistsForThisUser } );  
+		}).catch((error) => {
+		next(error);
+	});
+	//res.render("index", { currentUser });
+
+
+
 });
 
 // CHECK if the user is logged in and send to secret
