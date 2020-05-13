@@ -3,16 +3,14 @@ const router = express.Router();
 const Song = require("../models/song");
 const Playlist = require("../models/playlist");
 
-// require spotify-web-api-node package here:
+// Require Spotify
 const SpotifyWebApi = require("spotify-web-api-node");
 
-// 1. Setting the spotify-api goes here:
 const spotifyApi = new SpotifyWebApi({
 	clientId: process.env.CLIENT_ID,
 	clientSecret: process.env.CLIENT_SECRET,
 });
 
-// 2. Retrieve an access token
 spotifyApi
 	.clientCredentialsGrant()
 	.then((data) => spotifyApi.setAccessToken(data.body["access_token"]))
@@ -20,34 +18,37 @@ spotifyApi
 		console.log("Something went wrong when retrieving an access token", error)
 	);
 
-let artistname; //  we need the artist name (artname) in the router.post (/add-playlist) so we are making it global.
+
+// Starting routes
+let artistname; 
+// We need the artist name (artname) in the router.post (/add-playlist) so we are making it global.
 // It is declared here and initialized in router.get(/artist-search)
 
-// Our routes go here:
-/* GET home page */
+// GET home page 
 router.get("/", (req, res, next) => {
 	//const currentUser = req.session.currentUser;
 	//res.render("index", { currentUser });
 	let currentUser;
-	//Getting username from basic auth
+	// Getting username from basic auth
 	if (req.session.currentUser) {
 		currentUser = req.session.currentUser.username;
 	}
-	//Getting username from passport
+	// Getting username from passport
 	if (req.session.passport) {
 		currentUser = req.session.passport.user.username;
 	}
+	// Getting user playlists to main page
 	Playlist.find() 
 		.then(allPlaylistsForThisUser => {
-		res.render('index',  { currentUser, playlist: allPlaylistsForThisUser } );  
+			res.render('index',  { currentUser, playlist: allPlaylistsForThisUser } );  
 		}).catch((error) => {
-		next(error);
-	});
-
+			next(error);
+		});
 });
+
 // CHECK if the user is logged in and send to secret
 router.use((req, res, next) => {
-	console.log(req.session.currentUser);
+	//console.log(req.session.currentUser);
 	if (req.session.currentUser || req.session.passport) {
 		next();
 	} else {
@@ -55,15 +56,16 @@ router.use((req, res, next) => {
 	}
 });
 
-// 1. Search artists and choose artist
-
+// GET Search for artists
 router.get("/artist-search", (req, res, next) => {
 	res.render("playlist/create-top");
 });
 
+// GET Search for artists result
 router.get("/artist-search-action", (req, res, next) => {
 	//  console.log(req.query.artname) // --> { artname: 'placebo' } if in the form I type "placebo" and submit the form
 	artistname = req.query.artistname;
+	
 	spotifyApi
 		.searchArtists(artistname)
 		.then((data) => {
@@ -72,16 +74,14 @@ router.get("/artist-search-action", (req, res, next) => {
 			let artists = data.body.artists.items;
 			//  console.log('sending data to artist-search results')
 			res.render("playlist/artist-search-results", { artists });
-			// console.log(artname)
-			return artistname; // we need the artist name (artname) in the router.post (/add-playlist)
+			return artistname; // we need the artist name (artistname) in the router.post (/add-playlist)
 		})
 		.catch((err) =>
 			console.log("The error while searching artists occurred: ", err)
 		);
 });
 
-// 2. GET songs search route -> after artist is found
-
+// GET list of songs from spoti after getting albums
 router.get("/tracks/:id", (req, res) => {
 	// console.log(req.params.id)
 	let id = req.params.id;
@@ -93,8 +93,7 @@ router.get("/tracks/:id", (req, res) => {
 			// console.log('The received data from the API: ', data.body.images);
 			// console.log('One of the items of the data: ', data.body.artists.items[0])});
 			let items = data.body.items;
-			console.log("DATA     ", data.body.items[0].artists[0].name);
-
+			//console.log("DATA     ", data.body.items[0].artists[0].name);
 			artist_name = data.body.items[0].artists[0].name;
 			// console.log(items)
 			//  items.forEach(element => console.log(element.id))
@@ -132,15 +131,14 @@ router.get("/tracks/:id", (req, res) => {
 			);
 			//console.log(`This is allTracks logging from OUTSIDE the forEach`);
 			//console.log(allTracks);
-			//  res.render('all-tracks', { allInfo }  )
+			//res.render('all-tracks', { allInfo }  )
 		})
 		.catch((err) =>
 			console.log("The error while searching albums occurred: ", err)
 		);
 });
 
-// 3. POST chosen songs to Database
-
+// POST chosen songs to Database and add playlist
 router.post("/add-playlist", (req, res, next) => {
 	const songs = req.body.song;
 	artistname = req.body.artist_name;
@@ -172,6 +170,22 @@ router.post("/add-playlist", (req, res, next) => {
 		.catch((error) => {
 			next(error);
 		});
+});
+
+// GET Vista individual de playlist
+router.get('/playlist/:playlistId', (req, res, next) => {
+	const playlistId = req.params.playlistId;
+	//console.log('ENTRAAAAA',playlistId)
+
+	Playlist.findById(playlistId)
+		.populate('song')
+		.then(playlistIndividual => {
+			//console.log('XIXA', playlistIndividual)
+			res.render('playlist/playlist-detail', { playlist: playlistIndividual });
+	})
+	.catch((error) => {
+		next(error);
+	});
 });
 
 module.exports = router;
