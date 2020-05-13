@@ -11,6 +11,11 @@ body {
 a {
   color: #222; }
 
+.proj-name {
+  font-size: 22px;
+  text-transform: uppercase;
+  font-weight: 600; }
+
 .card img {
   width: 30px;
   margin: 10px 0; }

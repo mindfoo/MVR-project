@@ -19,8 +19,7 @@
             {{#if currentUser}}
                 <li class="nav-link"><a href="/profile">My profile</a></li>
                 <li class="nav-link"><a href="/logout">Logout</a></li>
-            {{/if}}
-            {{#else}}
+            {{else}}
                 <li class="nav-link">
                     <a href="/login">Login</a>
                 </li>
@@ -30,18 +29,17 @@
                 <li class="nav-link">
                     <a href="/signup">Signup</a>
                 </li>
-            {{/else}}
+            {{/if}}
         </div>
   </div>
 </nav>
 
 <section class="content p-3">
     {{#if currentUser}}
-        <h3 class="title-light text-center mt-4">Welcome to MVR, {{currentUser.username}}!</strong></h3>
+        <h3 class="title-light text-center mt-4">Welcome to MVR, {{currentUser.username}}!</h3>
+    {{else}}
+        <h1 class="display-4 text-center mt-5">Welcome to <div class="proj-name">{{title}}</div></h1>
     {{/if}}
-    {{#else}}
-        <h1 class="display-4">Welcome to {{title}}</h1>
-    {{/else}}
 
     {{#if currentUser}}
     <hr class="mt-5" style="height:30px;">
