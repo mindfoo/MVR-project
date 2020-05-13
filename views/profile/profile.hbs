@@ -1,7 +1,30 @@
+{{!-- Navbar --}}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="logo mr-4"><img src="#" alt="logo"/>MVR</div>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-link">
+                <a href="/artist-search">Create Playlist</a>
+            </li>
+        </ul>
+        <div class="right-align">
+                <li class="nav-link">
+									<a href="/profile">
+										<img class="avatar-nav-bar" src="{{theUser.imgPath}}" alt="{{theUser.imgName}}">
+									</a></li>
+                <li class="nav-link"><a href="/logout">Logout</a></li>
+        </div>
+  </div>
+</nav>
+
 <h1>My profile route</h1>
 
 <div>
-	<img class="avatar" src="{{theUser.imgPath}}" alt="{{theUser.imgName}}"</p>
+	<img class="avatar" src="{{theUser.imgPath}}" alt="{{theUser.imgName}}"></p>
 	<p>{{theUser.firstName}}</p>
 	<p>{{theUser.lastName}}</p>
 	<p>{{theUser.username}}</p>
