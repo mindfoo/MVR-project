@@ -1,16 +1,18 @@
+<h2 class="display-4 text-center mt-5">2. Pick your artist/band</h2>
 
-<h1>The search results are: </h1>
-<div>
+<section class="content p-3">
     {{#each artists}}
-    Name: {{ name }}
-        {{#each images}}
-            {{#if @first}}
-                <img src="{{ url }}" width="200" alt="" />
-             {{/if}}
-        {{/each}}
-
-    <button class="btn btn-primary mr-3" onclick="window.location.href = '/tracks/{{id}}';">View tracks</button>
-    
+        <div class="card col-sm-3 m-2" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ name }}</h5>
+                {{#each images}}
+                    {{#if @first}}
+                        <img src="{{ url }}" width="200" alt="" />
+                    {{/if}}
+                {{/each}}
+                <div class="btn btn-primary" onclick="window.location.href = '/tracks/{{id}}';">View tracks</button>
+            </div>
+        </div>
     {{/each}}
-</div>
+</section>
    

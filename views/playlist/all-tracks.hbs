@@ -1,28 +1,25 @@
 <h1>Tracks</h1>
 
 <form action="/add-playlist" method="POST">
-
-     <input type="text" name="artist_name" value="{{ data.artist_name }}" placeholder="{{ data.artist_name }}" />
-<br/>
-     {{#each data.allInfo.name }}
-          <input type="checkbox" id="song-single" name="song"  value="{{ this }}">
-          <label for="" > {{ this }} </label><br/>
-     {{/each}} 
-
-     <input type="submit" value="Submit">
-
+     <div class="form-group">
+          <input class="form-control" type="text" name="artist_name" value="{{ data.artist_name }}" placeholder="{{ data.artist_name }}" />
+          <br/>
+          {{#each data.allInfo.name }}
+               <input class="form-control" type="checkbox" id="song-single" name="song"  value="{{ this }}">
+               <label for="" > {{ this }} </label><br/>
+          {{/each}} 
+          <button type="button" class="btn btn-primary mr-3">Submit</button>
+     </div>
 </form>
 
 {{!-- TO DO  
-
      --> Create a FORM with 3 columns
-                   In the first the name of the songs (allInfo.name)
-                   In the second the preview of the songs (allInfo.preview)
-                   In the last one the checkboxes
+          In the first the name of the songs (allInfo.name)
+          In the second the preview of the songs (allInfo.preview)
+          In the last one the checkboxes
 
      -->  Impose 3 songs, not less, not more
-             form with checkboxes 
-             https://stackoverflow.com/questions/19001844/how-to-limit-the-number-of-selected-checkboxes
-                   
+          form with checkboxes 
+          https://stackoverflow.com/questions/19001844/how-to-limit-the-number-of-selected-checkboxes
 --}}
 

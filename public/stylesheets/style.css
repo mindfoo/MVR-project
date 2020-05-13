@@ -10,6 +10,12 @@ body {
 
 a {
   color: #222; }
+  a:hover {
+    text-decoration: none;
+    color: initial; }
+
+.btn-primary > * {
+  color: white !important; }
 
 .proj-name {
   font-size: 22px;
@@ -22,6 +28,10 @@ a {
 
 .title-light {
   font-weight: 300; }
+
+.centered-content {
+  margin: auto;
+  text-align: center; }
 
 .avatar {
   vertical-align: middle;
