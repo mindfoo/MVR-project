@@ -1,18 +1,29 @@
-<h2 class="display-4 text-center mt-5">2. Pick your artist/band</h2>
+<div class="wrap text-center mt-5">
+    <button type="button" class="btn btn-light"><a href="/">Back to Main Page</a></button>
+    <h2 class="display-4 text-center">2. Pick your artist/band</h2>
+</div>
 
 <section class="content p-3">
-    {{#each artists}}
-        <div class="card col-sm-3 m-2" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">{{ name }}</h5>
-                {{#each images}}
-                    {{#if @first}}
-                        <img src="{{ url }}" width="200" alt="" />
-                    {{/if}}
-                {{/each}}
-                <div class="btn btn-primary" onclick="window.location.href = '/tracks/{{id}}';">View tracks</button>
+    <div class="row p-5">
+        {{#each artists}}
+            <div class="card artist-card col-sm-4 p-2 text-center" style="width: 18rem;">
+                {{#if images}}
+                    {{#each images}}
+                        {{#if @first}}
+                            <img class="card-img-top" src="{{ url }}" alt="artist cover" />
+                        {{/if}}
+                    {{/each}}
+
+                    {{else}}
+                    <div class="bg-color"></div>
+                {{/if}}
+            
+                <div class="card-body">
+                    <h5 class="card-title">{{ name }}</h5>
+                    <button class="btn btn-link" onclick="window.location.href = '/tracks/{{id}}';">View tracks</button>
+                </div>
             </div>
-        </div>
-    {{/each}}
+        {{/each}}
+    </div>
 </section>
    

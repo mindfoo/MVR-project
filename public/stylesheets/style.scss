@@ -22,10 +22,33 @@ a {
 	font-weight: 600;
 }
 
+.wrap.text-center {
+    position: relative;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
 .card {
 	img {
 		width: 30px;
 		margin: 10px 0;
+	}
+	&.artist-card {
+		img{
+			width: 100%;
+			margin: 0;
+			object-fit: cover;
+			height: 250px;
+		}
+		.bg-color {
+			background: #222;
+			width: 100%;
+			display: block;
+			height: 250px;
+		}
 	}
 }
 
