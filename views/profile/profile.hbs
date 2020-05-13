@@ -29,7 +29,8 @@
 	<p>{{theUser.lastName}}</p>
 	<p>{{theUser.username}}</p>
 	<p>{{theUser.email}}</p>
-	<a href="/profile/edit?user_id={{theUser._id}}">Edit</a>
 </div>
 
-<a href="/">Back to Main Page</a>
+<button type="button" class="btn btn-primary mr-3"><a href="/profile/edit?user_id={{theUser._id}}">Edit</a></button>
+
+<button type="button" class="btn btn-light"><a href="/">Back to Main Page</a></button>
