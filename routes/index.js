@@ -121,8 +121,9 @@ router.get("/tracks/:id", (req, res) => {
 						allInfo.preview = allPreview_url;
 						//console.log(allInfo);
 						let data = { allInfo, artist_name };
-						console.log("MAYBE", data);
-						res.render("playlist/all-tracks", { data });
+						//console.log("MAYBE", data);
+						console.log(artist_name)
+						res.render("playlist/all-tracks", { data , artist_name });
 					}
 					//console.log(counter);
 					//console.log(albumsIds.length);
