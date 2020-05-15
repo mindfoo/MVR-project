@@ -1,18 +1,62 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
 
-{{#if currentUser}}
-    <p>Welcome {{currentUser.username}}</p>
-{{/if}}
+{{!-- This is our home --}}
+
 
 {{!-- go to create view just for testing purposes --}}
-<a href="/artist-search">Go to create view!</a><br/><br/>
-<a href="/login">Go to login view!</a><br/><br/>
-<a href="/signup">Go to signup view!</a><br/><br/>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
 
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="logo mr-4"><img src="#" alt="logo"/>MVR</div>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-link">
+                <a href="/artist-search">Create Playlist</a>
+            </li>
+        </ul>
+        <div class="right-align">
+            {{#if currentUser}}
+                <li class="nav-link"><a href="/profile">My profile</a></li>
+                <li class="nav-link"><a href="/logout">Logout</a></li>
+            {{else}}
+                <li class="nav-link">
+                    <a href="/login">Login</a>
+                </li>
+                <li class="nav-link">
+                    <a href="/auth/google">Login with Google</a>
+                </li>
+                <li class="nav-link">
+                    <a href="/signup">Signup</a>
+                </li>
+            {{/if}}
+        </div>
+  </div>
+</nav>
 
+<section class="content p-3">
+    {{#if currentUser}}
+        <h3 class="title-light text-center mt-4">Welcome to MVR, {{currentUser}}!</h3>
+    {{else}}
+        <h1 class="display-4 text-center mt-5">Welcome to <div class="proj-name">{{title}}</div></h1>
+    {{/if}}
 
-{{#if currentUser}}
-    <a href="/profile">My profile</a>   
-    <a href="/logout">Logout</a>
-{{/if}}
+    {{#if currentUser}}
+    <hr class="mt-5" style="height:30px;">
+        <h3 class="title-light text-center">Your personal playlists</h3>
+        <div class="row p-5">
+            {{#each playlist}}
+                <div class="card col-sm-3 m-2" style="width: 18rem;">
+                    <a href="/playlist/{{this._id}}">
+                        <div class="card-body">
+                            <img class="card-img-top" src="../images/playlist.svg" alt="Card image cap"/>
+                            <h5 class="card-title">{{this.artistname}}</h5>
+                            <div class="btn btn-primary">View</div>
+                        </div>
+                    </a>
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
+</section>
+

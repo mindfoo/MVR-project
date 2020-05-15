@@ -1,9 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;500;700&display=swap");
+* {
+  margin: 0;
+  padding: 0; }
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  padding: 3rem;
+  color: #222;
+  font-family: 'Ubuntu', sans-serif; }
 
 a {
-  color: #00B7FF; }
+  color: #222; }
+
+.proj-name {
+  font-size: 22px;
+  text-transform: uppercase;
+  font-weight: 600; }
+
+.wrap.text-center {
+  position: relative;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-evenly; }
+
+.light {
+  font-weight: 300; }
+
+.card img {
+  width: 30px;
+  margin: 10px 0; }
+
+.card.artist-card img {
+  width: 100%;
+  margin: 0;
+  object-fit: cover;
+  height: 250px; }
+
+.card.artist-card .bg-color {
+  background: #222;
+  width: 100%;
+  display: block;
+  height: 250px; }
+
+.title-light {
+  font-weight: 300; }
+
+.centered-content {
+  margin: auto;
+  text-align: center; }
+
+.avatar {
+  vertical-align: middle;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 10rem; }
+
+.avatar-nav-bar {
+  vertical-align: middle;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 3rem; }
+
+.right-align {
+  display: inherit;
+  float: right; }
+
+.sticky {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  height: 60px;
+  background: #fafafa;
+  top: auto;
+  left: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch; }
+  .sticky button {
+    width: 100%;
+    border-radius: 0; }
 
 #form {
   margin: 30px auto;
@@ -16,7 +92,24 @@ a {
     margin-bottom: 10px;
     text-align: center;
     width: 100%; }
-  #form input, #form button {
+  #form input,
+  #form button {
+    box-sizing: border-box;
+    font-size: 14px;
+    outline: 0;
+    padding: 4px;
+    width: 100%;
+    margin-bottom: 20px; }
+  #form h2 {
+    text-align: center; }
+  #form label {
+    color: #666;
+    display: inline-block;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%; }
+  #form input,
+  #form button {
     box-sizing: border-box;
     font-size: 14px;
     outline: 0;
@@ -34,15 +127,15 @@ a {
     padding: 8px 16px;
     text-decoration: none;
     text-transform: uppercase;
-    transition: .3s ease background;
+    transition: 0.3s ease background;
     width: 100%; }
   #form button:hover {
     background: #fff;
     color: #43a3e6;
-    transition: .3s ease background; }
+    transition: 0.3s ease background; }
 
 .error-message {
-  background: #F02B63;
+  background: #f02b63;
   box-sizing: border-box;
   color: #fff;
   margin: 20px auto;
@@ -61,11 +154,11 @@ a {
   text-align: right;
   color: #000;
   line-height: 43px;
-  -webkit-transition: all .3s ease-in-out;
-  -moz-transition: all .3s ease-in-out;
-  -o-transition: all .3s ease-in-out;
-  -ms-transition: all .3s ease-in-out;
-  transition: all .3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   padding-right: 12px;
   border-radius: 5px;
   white-space: nowrap; }
@@ -74,27 +167,27 @@ a {
   position: absolute;
   top: 22px;
   right: 0px;
-  color: #FFF;
+  color: #fff;
   font-size: 13px; }
 
 .veryweak {
-  background-color: #FFA0A0;
-  border-color: #F04040 !important;
+  background-color: #ffa0a0;
+  border-color: #f04040 !important;
   width: 25% !important; }
 
 .weak {
-  background-color: #FFB78C;
-  border-color: #FF853C !important;
+  background-color: #ffb78c;
+  border-color: #ff853c !important;
   width: 50% !important; }
 
 .medium {
-  background-color: #FFEC8B;
-  border-color: #FC0 !important;
+  background-color: #ffec8b;
+  border-color: #fc0 !important;
   width: 75% !important; }
 
 .strong {
-  background-color: #C3FF88;
-  border-color: #8DFF1C !important;
+  background-color: #c3ff88;
+  border-color: #8dff1c !important;
   width: 100% !important; }
 
 /*# sourceMappingURL=style.css.map */

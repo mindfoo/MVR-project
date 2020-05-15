@@ -1,13 +1,15 @@
 const express = require("express");
 const User = require("../models/user");
-
+const uploadCloud = require("../config/cloudinary.js");
 const router = express.Router();
 
 //profile route
 router.get("/profile", (req, res, next) => {
 	try {
 		const currentUser = req.session.currentUser;
-		res.render("profile/profile", { currentUser });
+		User.findById(currentUser._id).then((theUser) => {
+			res.render("profile/profile", { theUser });
+		});
 	} catch (e) {
 		next(e);
 	}
@@ -35,12 +37,14 @@ router.get("/profile/edit", (req, res) => {
 });
 
 //user edit post
-router.post("/profile/edit", (req, res) => {
+router.post("/profile/edit", uploadCloud.single("photo"), (req, res) => {
 	const userId = req.query.user_id;
+	const imgPath = req.file.url;
+	const imgName = req.file.originalname;
 	const { firstName, lastName, username, email } = req.body;
 	User.update(
 		{ _id: userId },
-		{ $set: { firstName, lastName, username, email } }
+		{ $set: { firstName, lastName, username, email, imgPath, imgName } }
 	)
 		.then(() => {
 			res.redirect("/profile");

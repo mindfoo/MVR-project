@@ -1,9 +1,28 @@
 const express = require("express");
 const router = express.Router();
+const passport = require("passport");
 const User = require("../models/user");
 
 const bcrypt = require("bcryptjs");
 const bcryptSalt = 10;
+
+//Google Auth Route
+router.get(
+	"/auth/google",
+	passport.authenticate("google", {
+		scope: [
+			"https://www.googleapis.com/auth/userinfo.profile",
+			"https://www.googleapis.com/auth/userinfo.email",
+		],
+	})
+);
+router.get(
+	"/auth/google/callback",
+	passport.authenticate("google", {
+		successRedirect: "/",
+		failureRedirect: "/login", // here you would redirect to the login page using traditional login approach
+	})
+);
 
 //signup route
 router.get("/signup", (req, res, next) => {
@@ -133,6 +152,8 @@ router.post("/signup", (req, res, next) => {
 
 //Logout route
 router.get("/logout", (req, res, next) => {
+	req.logout()
+
 	req.session.destroy(() => {
 		res.redirect("/");
 	}).catch((error) => {
