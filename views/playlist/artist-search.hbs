@@ -1,0 +1,18 @@
+{{!-- Search for your artist/band --}}
+<h2 class="display-4 text-center mt-5">1. Search for your artist/band</h2>
+<hr>
+<section class="centered-content">
+    {{!-- <img src="images/spotify-background.jpeg" width="200" alt=""> --}}
+    <form action="/artist-search-action" method="GET">
+        <label for="artistname"></label>
+        <div class="input-group input-group-lg mb-3">
+            <div class="input-group-prepend">
+                <a href="/" class="btn btn-terciary input-group-text" id="basic-addon1">Back</a>
+            </div>
+            <input type="text" id="artname" name="artistname" class="form-control" placeholder="Search for your artist/band here..." aria-label="Search for your artist/band here..." aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary mr-3 input-group-text" id="basic-addon2">Submit</button>
+            </div>
+        </div>
+    </form> 
+</section>

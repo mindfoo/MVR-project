@@ -57,11 +57,11 @@ router.use((req, res, next) => {
 });
 
 // GET Search for artists
-router.get("/artist-search", (req, res, next) => {
-	res.render("playlist/create-top");
+router.get("/artist-search", (req, res) => {
+	res.render("playlist/artist-search");
 });
 
-// GET Search for artists result
+// GET results for artists search
 router.get("/artist-search-action", (req, res, next) => {
 	//  console.log(req.query.artname) // --> { artname: 'placebo' } if in the form I type "placebo" and submit the form
 	artistname = req.query.artistname;
@@ -73,11 +73,11 @@ router.get("/artist-search-action", (req, res, next) => {
 			//  console.log('One of the items of the data: ', data.body.artists.items[0]);
 			let artists = data.body.artists.items;
 			//  console.log('sending data to artist-search results')
-			res.render("playlist/artist-search-results", { artists });
+			res.render("playlist/artist-search-results", { artists, artistname })
 			return artistname; // we need the artist name (artistname) in the router.post (/add-playlist)
 		})
 		.catch((err) =>
-			console.log("The error while searching artists occurred: ", err)
+			console.log("The error while searching artist occurred: ", err)
 		);
 });
 
@@ -121,8 +121,9 @@ router.get("/tracks/:id", (req, res) => {
 						allInfo.preview = allPreview_url;
 						//console.log(allInfo);
 						let data = { allInfo, artist_name };
-						console.log("MAYBE", data);
-						res.render("playlist/all-tracks", { data });
+						//console.log("MAYBE", data);
+						console.log(artist_name)
+						res.render("playlist/all-tracks", { data , artist_name });
 					}
 					//console.log(counter);
 					//console.log(albumsIds.length);

@@ -16,12 +16,39 @@ a {
   text-transform: uppercase;
   font-weight: 600; }
 
+.wrap.text-center {
+  position: relative;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-evenly; }
+
+.light {
+  font-weight: 300; }
+
 .card img {
   width: 30px;
   margin: 10px 0; }
 
+.card.artist-card img {
+  width: 100%;
+  margin: 0;
+  object-fit: cover;
+  height: 250px; }
+
+.card.artist-card .bg-color {
+  background: #222;
+  width: 100%;
+  display: block;
+  height: 250px; }
+
 .title-light {
   font-weight: 300; }
+
+.centered-content {
+  margin: auto;
+  text-align: center; }
 
 .avatar {
   vertical-align: middle;
@@ -38,6 +65,21 @@ a {
 .right-align {
   display: inherit;
   float: right; }
+
+.sticky {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  height: 60px;
+  background: #fafafa;
+  top: auto;
+  left: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch; }
+  .sticky button {
+    width: 100%;
+    border-radius: 0; }
 
 #form {
   margin: 30px auto;

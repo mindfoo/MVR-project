@@ -1,28 +1,35 @@
-<h1>Tracks</h1>
+<div class="text-left mt-5 mb-5">
+    <button type="button" class="btn btn-light mb-5"><a href="/">Back to Main Page</a></button><br>
+    <h2 class="display-4 light text-left">3. Vote on your favourite tracks of <strong>{{artist_name}}</strong></h2>
+</div>
 
 <form action="/add-playlist" method="POST">
-
-     <input type="text" name="artist_name" value="{{ data.artist_name }}" placeholder="{{ data.artist_name }}" />
-<br/>
-     {{#each data.allInfo.name }}
-          <input type="checkbox" id="song-single" name="song"  value="{{ this }}">
-          <label for="" > {{ this }} </label><br/>
-     {{/each}} 
-
-     <input type="submit" value="Submit">
-
+     <div class="form-group" style="column-count: 2;">
+          <input class="form-control" type="text" name="artist_name" value="{{ data.artist_name }}" placeholder="{{ data.artist_name }}" style="visibility:hidden; display:none;"/>
+          {{#each data.allInfo.name }}
+               <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                         <div class="input-group-text">
+                              <input type="checkbox" aria-label="Checkbox for following text input" id="song-single" name="song"  value="{{ this }}"/>
+                         </div>
+                    </div>
+                    <input type="text" class="form-control" aria-label="{{ this }}" value="{{ this }}">
+               </div>
+          {{/each}} 
+          <div class="sticky">
+               <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+     </div>
 </form>
 
 {{!-- TO DO  
-
      --> Create a FORM with 3 columns
-                   In the first the name of the songs (allInfo.name)
-                   In the second the preview of the songs (allInfo.preview)
-                   In the last one the checkboxes
+          In the first the name of the songs (allInfo.name)
+          In the second the preview of the songs (allInfo.preview)
+          In the last one the checkboxes
 
      -->  Impose 3 songs, not less, not more
-             form with checkboxes 
-             https://stackoverflow.com/questions/19001844/how-to-limit-the-number-of-selected-checkboxes
-                   
+          form with checkboxes 
+          https://stackoverflow.com/questions/19001844/how-to-limit-the-number-of-selected-checkboxes
 --}}
 
