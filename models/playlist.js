@@ -5,7 +5,8 @@ const playlistSchema = new Schema(
   {
     artistname: String,
     songs: [{type: Schema.Types.ObjectId, ref: 'Song'}],
-    user: [{type: Schema.Types.ObjectId, ref: 'User'}]
+    user: [{type: Schema.Types.ObjectId, ref: 'User'}],
+    id: String  // SPOTIFY ID
   },
     { 
       timestamps: {

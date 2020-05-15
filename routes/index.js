@@ -40,6 +40,7 @@ router.use((req, res, next) => {
 	}
 })
 
+// CREATE
 // 1. Search artists and choose artist
 
 router.get("/artist-search", (req, res, next) => {
@@ -65,11 +66,12 @@ router.get("/artist-search-action", (req, res, next) => {
 		);
 });
 
+// CREATE
 // 2. GET songs search route -> after artist is found
 
 router.get("/tracks/:id", (req, res) => {
 	// console.log(req.params.id)
-	let id = req.params.id;
+	id = req.params.id;
 
 	spotifyApi
 		.getArtistAlbums(id)
@@ -124,15 +126,17 @@ router.get("/tracks/:id", (req, res) => {
 		);
 });
 
+// CREATE
 // 3. POST chosen songs to Database
 
 router.post('/add-playlist', (req, res, next) => {
 
 	const songs = req.body.song;
+	console.log(songs)
 	artistname = req.body.artist_name;
 
 	let user = req.session.currentUser._id;
-	const newPlaylist = new Playlist({ artistname, user })
+	const newPlaylist = new Playlist({ artistname, user, id })
 
 	newPlaylist.save()
 		.then((playlist) => {
@@ -156,5 +160,7 @@ router.post('/add-playlist', (req, res, next) => {
 			next(error);
 		});
 })
+
+
 
 module.exports = router;
