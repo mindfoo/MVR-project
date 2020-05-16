@@ -13,7 +13,6 @@
             <li class="nav-link">
                 <a href="/artist-search">Create Playlist</a>
             </li>
-        <div class="right-align">
             {{#if currentUser}}
                 {{!-- <li class="nav-link"><a href="/profile">My profile</a></li>
                 <li class="nav-link"><a href="/logout">Logout</a></li> --}}
@@ -52,7 +51,7 @@
     {{#if currentUser}}
         <h3 class="title-light text-center mt-4">Welcome to MVR, {{currentUser}}!</h3>
     {{else}}
-        <h1 class="display-4 text-center mt-5">Welcome to <div class="proj-name">{{title}}</div></h1>
+        <h1 class="welcome display-4 text-center mt-5">Welcome to <div class="proj-name">{{title}}</div></h1>
     {{/if}}
 
     {{#if currentUser}}

@@ -84,7 +84,7 @@ router.get("/artist-search-action", (req, res, next) => {
 // GET list of songs from spoti after getting albums
 let id  // this is the SPOTIFY ARTIST ID. We are going to need to save it in the DB for updating a playlist purposes
 router.get("/tracks/:id", (req, res) => {
-	// console.log(req.params.id)
+	 //console.log(req.params.id)
 	id = req.params.id;
 
 	spotifyApi
@@ -102,28 +102,31 @@ router.get("/tracks/:id", (req, res) => {
 			items.forEach((element) => albumsIds.push(element.id));
 			// console.log(albumsIds)
 			const allInfo = {};
+
 			let allTracks = [];
 			let allPreview_url = [];
+			let allSongIds = [];
 
 			let counter = 1;
 			albumsIds.forEach((element) =>
 				spotifyApi.getAlbumTracks(element).then((data) => {
-					// console.log('The received data from the API: ', data.body);
+					//console.log('The received data from the API: ', data.body);
 					let items = data.body.items;
 					items.forEach((element) => allTracks.push(element.name));
 					items.forEach((element) => allPreview_url.push(element.preview_url));
+					items.forEach((element) => allSongIds.push(element.id));
 
-					//console.log(`This is allTracks logging from INSIDE the forEach`);
 					//console.log('ALL TRA|CKS',allTracks);
 					if (counter === albumsIds.length) {
 						// pq o problema q tava a dar com artistas com mais de 1 album parecia estar relacionado com o res.render estar a ser chamado tantas vezes quantas o número de albums
 						allTracks = new Set(allTracks); // remove os duplicados
 						allInfo.name = allTracks;
 						allInfo.preview = allPreview_url;
-						//console.log(allInfo);
+						allInfo.id = allSongIds;
+						console.log(allInfo);
+
 						let data = { allInfo, artist_name };
-						//console.log("MAYBE", data);
-						console.log(artist_name)
+						//console.log(artist_name)
 						res.render("playlist/all-tracks", { data , artist_name });
 					}
 					//console.log(counter);
@@ -140,14 +143,18 @@ router.get("/tracks/:id", (req, res) => {
 		);
 });
 
+
+
 // POST chosen songs to Database and add playlist
 router.post("/add-playlist", (req, res, next) => {
 	const songs = req.body.song;
-	console.log(songs)
+	//console.log(songs)
 	artistname = req.body.artist_name;
+	preview = req.body.preview;
+	songSpotiId = req.body.id;
 
 	let user = req.session.currentUser._id;
-	const newPlaylist = new Playlist({ artistname, user, id });
+	const newPlaylist = new Playlist({ artistname, user, artistSpotiId : id });
 
 	newPlaylist
 		.save()
@@ -156,7 +163,8 @@ router.post("/add-playlist", (req, res, next) => {
 
 			for (let i = 0; i < songs.length; i++) {
 				songName = songs[i];
-				let newSong = new Song({ songName, artistname });
+
+				let newSong = new Song({ songName, artistname, preview, songSpotiId });
 
 				newSong.save().then((result) => {
 					newPlaylist
