@@ -5,16 +5,14 @@
 {{!-- go to create view just for testing purposes --}}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="navbar" id="navbarSupportedContent">
         <div class="logo mr-4"><img src="#" alt="logo"/>MVR</div>
-        <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-link">
                 <a href="/artist-search">Create Playlist</a>
             </li>
-        </ul>
         <div class="right-align">
             {{#if currentUser}}
                 <li class="nav-link"><a href="/profile">My profile</a></li>

@@ -83,6 +83,10 @@ a {
 	float: right;
 }
 
+li {
+    list-style-type: none;
+}
+
 .sticky {
     position: fixed;
     bottom: 0;
