@@ -4,8 +4,8 @@
 </div>
 
 <form action="/add-playlist" method="POST">
-     <div class="form-group" style="column-count: 2;">
-          <input class="form-control" type="text" name="artist_name" value="{{ data.artist_name }}" placeholder="{{ data.artist_name }}" style="visibility:hidden; display:none;"/>
+
+     <div class="" style="column-count: 2;">
           {{#each data.allInfo.name }}
                <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -16,10 +16,11 @@
                     <input type="text" class="form-control" aria-label="{{ this }}" value="{{ this }}">
                </div>
           {{/each}} 
-          <div class="sticky">
-               <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
      </div>
+     <div class="sticky">
+          <button type="submit" class="btn btn-primary">Submit</button>
+     </div>
+     <input type="text" name="artist_name" value="{{ data.artist_name }}" style="visibility:hidden; display:none;"/>
 </form>
 
 {{!-- TO DO  
