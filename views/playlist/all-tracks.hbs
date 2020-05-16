@@ -16,6 +16,8 @@
                     <input type="text" class="form-control" aria-label="{{ this }}" value="{{ this }}">
                </div>
           {{/each}} 
+          <input type="text" name="preview" value="{{data.allInfo.preview}}" style="display: none;"/>
+          <input type="text" name="id" value="{{data.allInfo.id}}" style="display: none;"/>
      </div>
      <div class="sticky">
           <button type="submit" class="btn btn-primary">Submit</button>
