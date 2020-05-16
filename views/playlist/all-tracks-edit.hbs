@@ -1,0 +1,23 @@
+<div class="text-left mt-5 mb-5">
+    <button type="button" class="btn btn-light mb-5"><a href="/">Back to Main Page</a></button><br>
+    <h2 class="display-4 light text-left">3. Vote on your favourite tracks of <strong>{{artist_name}}</strong></h2>
+</div>
+
+<form action="/playlist-edit" method="POST">
+     <div class="form-group" style="column-count: 2;">
+          <input class="form-control" type="text" name="artist_name" value="{{ data.artist_name }}" placeholder="{{ data.artist_name }}" style="visibility:hidden; display:none;"/>
+          {{#each data.allInfo.name }}
+               <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                         <div class="input-group-text">
+                              <input type="checkbox" aria-label="Checkbox for following text input" id="song-single" name="song"  value="{{ this }}"/>
+                         </div>
+                    </div>
+                    <input type="text" class="form-control" aria-label="{{ this }}" value="{{ this }}">
+               </div>
+          {{/each}} 
+          <div class="sticky">
+               <button type="submit" class="btn btn-primary">EDIT</button>
+          </div>
+     </div>
+</form>

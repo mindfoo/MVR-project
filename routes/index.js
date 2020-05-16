@@ -82,6 +82,7 @@ router.get("/artist-search-action", (req, res, next) => {
 });
 
 // GET list of songs from spoti after getting albums
+let id  // this is the SPOTIFY ARTIST ID. We are going to need to save it in the DB for updating a playlist purposes
 router.get("/tracks/:id", (req, res) => {
 	// console.log(req.params.id)
 	id = req.params.id;
@@ -146,7 +147,7 @@ router.post("/add-playlist", (req, res, next) => {
 	artistname = req.body.artist_name;
 
 	let user = req.session.currentUser._id;
-	const newPlaylist = new Playlist({ artistname, user });
+	const newPlaylist = new Playlist({ artistname, user, id });
 
 	newPlaylist
 		.save()
@@ -174,9 +175,11 @@ router.post("/add-playlist", (req, res, next) => {
 		});
 });
 
+
+let playlistId;
 // GET Vista individual de playlist
 router.get('/playlist/:playlistId', (req, res, next) => {
-	const playlistId = req.params.playlistId;
+	playlistId = req.params.playlistId;
 	//console.log('ENTRAAAAA',playlistId)
 
 	Playlist.findById(playlistId)
@@ -190,6 +193,154 @@ router.get('/playlist/:playlistId', (req, res, next) => {
 	});
 });
 
+let id_toedit
+// GET list of songs from spoti AGAIN to EDIT the playlist
+router.get("/playlist-edit/:id", (req, res) => {
+	// console.log(req.params.id)
+	id_toedit = req.params.id;
+
+	spotifyApi
+		.getArtistAlbums(id_toedit)
+		.then((data) => {
+			// console.log('The received data from the API: ', data.body);
+			// console.log('The received data from the API: ', data.body.images);
+			// console.log('One of the items of the data: ', data.body.artists.items[0])});
+			let items = data.body.items;
+			//console.log("DATA     ", data.body.items[0].artists[0].name);
+			artist_name = data.body.items[0].artists[0].name;
+			// console.log(items)
+			//  items.forEach(element => console.log(element.id))
+			let albumsIds = [];
+			items.forEach((element) => albumsIds.push(element.id));
+			// console.log(albumsIds)
+			const allInfo = {};
+			let allTracks = [];
+			let allPreview_url = [];
+
+			let counter = 1;
+			albumsIds.forEach((element) =>
+				spotifyApi.getAlbumTracks(element).then((data) => {
+					// console.log('The received data from the API: ', data.body);
+					let items = data.body.items;
+					items.forEach((element) => allTracks.push(element.name));
+					items.forEach((element) => allPreview_url.push(element.preview_url));
+
+					//console.log(`This is allTracks logging from INSIDE the forEach`);
+					//console.log('ALL TRA|CKS',allTracks);
+					if (counter === albumsIds.length) {
+						// pq o problema q tava a dar com artistas com mais de 1 album parecia estar relacionado com o res.render estar a ser chamado tantas vezes quantas o número de albums
+						allTracks = new Set(allTracks); // remove os duplicados
+						allInfo.name = allTracks;
+						allInfo.preview = allPreview_url;
+						//console.log(allInfo);
+						let data = { allInfo, artist_name };
+						//console.log("MAYBE", data);
+						console.log(artist_name)
+						res.render("playlist/all-tracks-edit", { data , artist_name });
+					}
+					//console.log(counter);
+					//console.log(albumsIds.length);
+					counter = counter + 1;
+				})
+			);
+			//console.log(`This is allTracks logging from OUTSIDE the forEach`);
+			//console.log(allTracks);
+			//res.render('all-tracks', { allInfo }  )
+		})
+		.catch((err) =>
+			console.log("The error while searching albums occurred: ", err)
+		);
+});
+
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   VIA UPDATE METHOD
+      // POST NEW songs to the playlist
+	//   router.post("/playlist-edit", (req, res, next) => {
+	// 	// save the new songs in the songs collection ...
+	// 	const songs = req.body.song;
+	// 	artistname = req.body.artist_name;
+	// 	console.log("THIS IS THE playlist-edit ROUTE")
+	// 	console.log(songs)
+	// 	console.log(artistname)
+	// 	console.log(playlistId)
+	   
+	// 	let otherSongs = [];
+	// 			   for (let i = 0; i < songs.length; i++) {
+	// 				   songName = songs[i];
+	// 				   let newSong = new Song({ songName, artistname });
+	   
+	// 				   newSong.save().then((result) => {
+	// 					   // ... then we have to update the MongoDB ids in the playlist collection (array songs)
+	// 					   console.log(result)
+	// 					   otherSongs.push(result._id)
+	// 					   console.log(otherSongs)
+						 
+	// 						   Playlist.update(
+	// 							   ({ _id: playlistId}, { $set: { songs: otherSongs } })
+	// 						   )
+	// 						   .then(() => {
+	// 							   console.log("THE END");
+	// 						   });
+						 
+						   
+	// 				   });
+	// 			   }
+	// 			   res.redirect("/");
+	//    });
+	
+	
+
+
+//  POST new set of chosen songs 
+//   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>   VIA DELETE and CREATE a NEW playlist
+ router.post("/playlist-edit", (req, res, next) => {
+	const songs = req.body.song;
+	artistname = req.body.artist_name;
+	console.log("THIS IS THE playlist-edit ROUTE")
+    console.log(songs)
+    console.log(artistname)
+	console.log(playlistId)
+
+    // REMOVE THE OLD PLAYLIST
+	Playlist.findByIdAndDelete(playlistId)
+	.then((result) => {
+        console.log("Old Playlist removed. The SPOTIFY id of the artist is:")
+        console.log(result.id)
+        // return result.id
+    })
+
+	// CREATE A NEW PLAYLIST
+	let user = req.session.currentUser._id;
+	let id = id_toedit 
+	const newPlaylist = new Playlist({ artistname, user, id }); 
+
+	newPlaylist
+		.save()
+		.then((playlist) => {
+			let newSongsId = [];
+
+			for (let i = 0; i < songs.length; i++) {
+				songName = songs[i];
+				let newSong = new Song({ songName, artistname });
+
+				newSong.save().then((result) => {
+					newPlaylist
+						.updateOne(
+							({ artistname: "artistname" }, { $push: { songs: [result._id] } })
+						)
+						.then((playlist) => {
+							console.log("Done");
+						});
+				});
+			}
+			res.redirect("/");
+		})
+		.catch((error) => {
+			next(error);
+		});
+});
 
 
 module.exports = router;
+
+
