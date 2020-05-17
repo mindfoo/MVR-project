@@ -42,8 +42,6 @@ router.get("/login", (req, res, next) => {
 	}
 });
 
-
-
 //login POST
 router.post("/login", (req, res, next) => {
 	const username = req.body.username;
@@ -51,20 +49,22 @@ router.post("/login", (req, res, next) => {
 
 	//TODO add fallbacks
 	if (!username || !password) {
-		res.render("auth/login", {
-			errorMessage: "Indicate a username and password",
-		}).catch((error) => {
-			next(error);
-		});
+		res
+			.render("auth/login", {
+				errorMessage: "Indicate a username and password",
+			})
+			.catch((error) => {
+				next(error);
+			});
 		return;
 	}
 
-	User.findOne({ username: username }).then(user => {
+	User.findOne({ username: username }).then((user) => {
 		//TODO check if the user exists
 		if (!user) {
 			res.render("auth/login", {
 				errorMessage: "The username doesn't exist",
-			})
+			});
 		}
 		if (bcrypt.compareSync(password, user.password)) {
 			req.session.currentUser = user;
@@ -77,20 +77,14 @@ router.post("/login", (req, res, next) => {
 	});
 });
 
-
-
-
 // signup POST
 router.post("/signup", (req, res, next) => {
-
-	
-
 	const firstName = req.body.firstName;
 	const lastName = req.body.lastName;
 	const username = req.body.username;
 	const email = req.body.email;
 	const password = req.body.password;
-
+	const imgPath = "https://res.cloudinary.com/dohdiqnba/image/upload/v1589745964/Profile%20Image/img_avatar2_jz0i0o.png";
 	const salt = bcrypt.genSaltSync(bcryptSalt);
 	const hashPass = bcrypt.hashSync(password, salt);
 
@@ -102,11 +96,13 @@ router.post("/signup", (req, res, next) => {
 		email === "" ||
 		password === ""
 	) {
-		res.render("auth/signup", {
-			errorMessage: "Pls fill all the fields"
-		}).catch((error) => {
-			next(error);
-		});
+		res
+			.render("auth/signup", {
+				errorMessage: "Pls fill all the fields",
+			})
+			.catch((error) => {
+				next(error);
+			});
 		return;
 	}
 
@@ -117,50 +113,58 @@ router.post("/signup", (req, res, next) => {
 	}
 
 	if (email != "") {
-		if(validateEmail(email) === false) {
-			res.render("auth/signup", {
-				errorMessage: "Pls enter a valid email"
-			}).catch((error) => {
-				next(error);
-			});
-			return
+		if (validateEmail(email) === false) {
+			res
+				.render("auth/signup", {
+					errorMessage: "Pls enter a valid email",
+				})
+				.catch((error) => {
+					next(error);
+				});
+			return;
 		}
 	}
 
 	//Making sure that user doesn't exist already
 	User.findOne({ username: username }).then((user) => {
 		if (user !== null) {
-			res.render("auth/signup", {
-				errorMessage: "The username already exists"
-			}).catch((error) => {
-				next(error);
-			});
+			res
+				.render("auth/signup", {
+					errorMessage: "The username already exists",
+				})
+				.catch((error) => {
+					next(error);
+				});
 			return;
 		}
-		User.create({ firstName, lastName, username, email, password: hashPass })
-		.then(() => {
+		User.create({
+			firstName,
+			lastName,
+			username,
+			email,
+			password: hashPass,
+			imgPath,
+		})
+			.then(() => {
+				res.redirect("/");
+			})
+			.catch((error) => {
+				next(error);
+			});
+	});
+});
+
+//Logout route
+router.get("/logout", (req, res, next) => {
+	req.logout();
+
+	req.session
+		.destroy(() => {
 			res.redirect("/");
 		})
 		.catch((error) => {
 			next(error);
 		});
-		
-	});
-
 });
-
-
-//Logout route
-router.get("/logout", (req, res, next) => {
-	req.logout()
-
-	req.session.destroy(() => {
-		res.redirect("/");
-	}).catch((error) => {
-		next(error);
-	});
-});
-
-
 
 module.exports = router;
