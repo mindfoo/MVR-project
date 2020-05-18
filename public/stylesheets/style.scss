@@ -34,7 +34,9 @@ a {
 .light {
 	font-weight: 300;
 }
-
+.my-profile {
+	text-align: center;
+}
 .card {
 	img {
 		width: 30px;
@@ -55,6 +57,11 @@ a {
 		}
 	}
 }
+.navbar{
+	justify-content: space-evenly;
+	width: 100%;
+}
+
 
 .title-light {
 	font-weight: 300;
@@ -81,6 +88,10 @@ a {
 .right-align {
 	display: inherit;
 	float: right;
+}
+
+li {
+    list-style-type: none;
 }
 
 .sticky {

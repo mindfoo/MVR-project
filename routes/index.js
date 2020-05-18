@@ -158,6 +158,15 @@ router.post("/add-playlist", (req, res, next) => {
 
 			for (let i = 0; i < songs.length; i++) {
 				songName = songs[i];
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+				// if (Song.find({songName: 'songName'})) {
+				// 	console.log("That song is already in the DB")
+				// 	// continue
+				// 	break
+				// } 
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 				let newSong = new Song({ songName, artistname });
 
@@ -203,10 +212,17 @@ router.get('/playlist/:playlistId', (req, res, next) => {
 	Playlist.findById(playlistId)
 		.populate('song')
 		.then(playlistIndividual => {
+
+
+
 			// for (i = 1; i < 4; i++) {
 			// 	Song.findById(playlistIndividual.songs)
 			// 	.then(element => nomeDasMusicas.push(element))
 			// }
+		
+
+
+
 			//console.log('XIXA', playlistIndividual)
 			res.render('playlist/playlist-detail', { playlist: playlistIndividual });
 	})
