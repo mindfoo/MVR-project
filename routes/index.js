@@ -31,7 +31,8 @@ router.get("/", (req, res, next) => {
 	let currentUser;
 	// Getting username from basic auth
 	if (req.session.currentUser) {
-		currentUser = req.session.currentUser.username;
+		currentUser = req.session.currentUser;
+		console.log(currentUser)
 	}
 	// Getting username from passport
 	if (req.session.passport) {
