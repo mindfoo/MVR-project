@@ -90,7 +90,7 @@ router.get("/tracks/:id", (req, res) => {
 	spotifyApi
 		.getArtistAlbums(id)
 		.then((data) => {
-			// console.log('The received data from the API: ', data.body);
+			 console.log('The received data from the API: ', data.body);
 			// console.log('The received data from the API: ', data.body.images);
 			// console.log('One of the items of the data: ', data.body.artists.items[0])});
 			let items = data.body.items;
@@ -108,8 +108,10 @@ router.get("/tracks/:id", (req, res) => {
 			let counter = 1;
 			albumsIds.forEach((element) =>
 				spotifyApi.getAlbumTracks(element).then((data) => {
-					// console.log('The received data from the API: ', data.body);
+					console.log('The received data from the API: ', data.body); 
 					let items = data.body.items;
+					console.log("THESE ARE THE SPOTI IDs for each SONG")
+					items.forEach((element)=> console.log(element.id))  // ID SPOTI SONGs AQUUUUUUUIIIIIIIIII
 					items.forEach((element) => allTracks.push(element.name));
 					items.forEach((element) => allPreview_url.push(element.preview_url));
 
@@ -156,7 +158,23 @@ router.post("/add-playlist", (req, res, next) => {
 
 			for (let i = 0; i < songs.length; i++) {
 				songName = songs[i];
+
 				let newSong = new Song({ songName, artistname });
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+				// if (Song.find({songName: 'songName'})) {
+				// 	console.log("That song is already in the DB")
+				//         songName = "SONGTODELETE" --> then we delete the repeated song with if (Song.find({songName: 'SONGTODELETE'})) {
+				//         let newSong = new Song({ songName, artistname });
+				// 	// continue
+				// 	// break
+				// } 
+				// If the current song already exists in our MongoDB database
+				// we want to push the result._id to the newPlaylist of the Playlist collection
+				// but don't want to save the song in the Song collection
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 				newSong.save().then((result) => {
 					newPlaylist
@@ -185,6 +203,10 @@ router.get('/playlist/:playlistId', (req, res, next) => {
 	Playlist.findById(playlistId)
 		.populate('song')
 		.then(playlistIndividual => {
+			// for (i = 1; i < 4; i++) {
+			// 	Song.findById(playlistIndividual.songs)
+			// 	.then(element => nomeDasMusicas.push(element))
+			// }
 			//console.log('XIXA', playlistIndividual)
 			res.render('playlist/playlist-detail', { playlist: playlistIndividual });
 	})

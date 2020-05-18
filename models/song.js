@@ -7,6 +7,7 @@ const songSchema = new Schema(
     // album: String,
     songName: String,
     // preview: String
+    idSpotifySong: String  // SPOTIFY ID
   },
     { 
       timestamps: {
