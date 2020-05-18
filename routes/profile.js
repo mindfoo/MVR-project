@@ -47,7 +47,7 @@ router.post("/profile/edit", uploadCloud.single("photo"), (req, res) => {
 		{ $set: { firstName, lastName, username, email, imgPath, imgName } }
 	)
 		.then(() => {
-			res.redirect("/profile");
+			res.render("profile/profile", { errorMessage: "invalid file" });
 		})
 		.catch((error) => {
 			next(error);
