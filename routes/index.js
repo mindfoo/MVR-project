@@ -198,18 +198,22 @@ router.get('/playlist/:playlistId', (req, res, next) => {
 		.populate('song')
 		.then(playlistIndividual => {
 
-
-
-			// for (i = 1; i < 4; i++) {
-			// 	Song.findById(playlistIndividual.songs)
-			// 	.then(element => nomeDasMusicas.push(element))
+			let songs = playlistIndividual.songs;
+			let songsIds = [];
+			let songsInfo = [];
+			res.render('playlist/playlist-detail', { playlist: playlistIndividual})
+			// for (i = 1; i < songs.length; i++) {
+			// 	songsIds.push(songs[i]);
 			// }
-		
-
-
-
+			// Song.findById(songs[i]).then(element => {
+			// 	return element
+			// 	console.log(element);
+			// }).then((element) =>{
+			// 	res.render('playlist/playlist-detail', { playlistIndividual, element} )
+			// 	.catch((error) => { next(error); })
+			// })
 			//console.log('XIXA', playlistIndividual)
-			res.render('playlist/playlist-detail', { playlist: playlistIndividual });
+			
 	})
 	.catch((error) => {
 		next(error);
