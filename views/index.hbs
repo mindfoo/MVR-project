@@ -4,16 +4,16 @@
 
 {{!-- go to create view just for testing purposes --}}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
+    
     <div class="navbar" id="navbarSupportedContent">
         <div class="logo mr-4"><img src="#" alt="logo"/>MVR</div>
             <li class="nav-item active">
                 <a class="nav-link" href="/">Home</a>
             </li>
+            {{#if currentUser}}
             <li class="nav-link">
                 <a href="/artist-search">Create Playlist</a>
             </li>
-            {{#if currentUser}}
                 <li class="nav-link"><a href="/profile">My profile</a></li>
                 <li class="nav-link"><a href="/logout">Logout</a></li>
                 <div class="collapse navbar-collapse" id="navbar-list-4">
@@ -34,9 +34,6 @@
             {{else}}
                 <li class="nav-link">
                     <a href="/login">Login</a>
-                </li>
-                <li class="nav-link">
-                    <a href="/auth/google">Login with Google</a>
                 </li>
                 <li class="nav-link">
                     <a href="/signup">Signup</a>
