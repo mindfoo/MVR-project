@@ -23,23 +23,23 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 //using bootstrap in a cool way
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 
-mongoose
-  .connect('mongodb://localhost/mvr-project', {useNewUrlParser: true})
+// mongoose
+//   .connect('mongodb://localhost/mvr-project', {useNewUrlParser: true})
+//   .then(x => {
+//     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
+//   })
+//   .catch(err => {
+//     console.error('Error connecting to mongo', err)
+//   });
+
+  mongoose
+  .connect(process.env.MONGODB_URI, {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
   .catch(err => {
     console.error('Error connecting to mongo', err)
   });
-
-  // mongoose
-  // .connect(process.env.MONGODB_URI, {useNewUrlParser: true})
-  // .then(x => {
-  //   console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
-  // })
-  // .catch(err => {
-  //   console.error('Error connecting to mongo', err)
-  // });
 
 
 

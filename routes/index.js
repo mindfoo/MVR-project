@@ -39,8 +39,12 @@ router.get("/", (req, res, next) => {
 		currentUser = req.session.passport.user.username;
 	}
 	// Getting user playlists to main page
-	Playlist.find() 
+	Playlist.find({ user: currentUser._id}) 
 		.then(allPlaylistsForThisUser => {
+			// for(i=0; i<allPlaylistsFromDB.length; i++){
+				
+			// }
+			console.log(allPlaylistsForThisUser)
 			res.render('index',  { currentUser, playlist: allPlaylistsForThisUser } );  
 		}).catch((error) => {
 			next(error);
@@ -196,25 +200,10 @@ router.get('/playlist/:playlistId', (req, res, next) => {
 	//console.log('ENTRAAAAA',playlistId)
 
 	Playlist.findById(playlistId)
-		.populate('song')
+		.populate('songs')
 		.then(playlistIndividual => {
-
-			let songs = playlistIndividual.songs;
-			let songsIds = [];
-			let songsInfo = [];
-			res.render('playlist/playlist-detail', { playlist: playlistIndividual})
-			// for (i = 1; i < songs.length; i++) {
-			// 	songsIds.push(songs[i]);
-			// }
-			// Song.findById(songs[i]).then(element => {
-			// 	return element
-			// 	console.log(element);
-			// }).then((element) =>{
-			// 	res.render('playlist/playlist-detail', { playlistIndividual, element} )
-			// 	.catch((error) => { next(error); })
-			// })
 			//console.log('XIXA', playlistIndividual)
-			
+			res.render('playlist/playlist-detail', { playlistIndividual})
 	})
 	.catch((error) => {
 		next(error);
