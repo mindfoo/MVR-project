@@ -8,10 +8,11 @@ router.get("/profile", (req, res, next) => {
 	try {
 		const currentUser = req.session.currentUser;
 		User.findById(currentUser._id).then((theUser) => {
+			console.log(theUser)
 			res.render("profile/profile", { theUser });
 		});
 	} catch (e) {
-		next(e);
+		console.log(e)
 	}
 });
 
@@ -32,7 +33,7 @@ router.get("/profile/edit", (req, res) => {
 			res.render("profile/profile-edit", { user: theUser });
 		})
 		.catch((error) => {
-			next(error);
+			console.log(e)
 		});
 });
 
@@ -50,7 +51,7 @@ router.post("/profile/edit", uploadCloud.single("photo"), (req, res) => {
 			res.redirect("/profile");
 		})
 		.catch((error) => {
-			next(error);
+			console.log(error)
 		});
 });
 

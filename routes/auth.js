@@ -84,7 +84,8 @@ router.post("/signup", (req, res, next) => {
 	const username = req.body.username;
 	const email = req.body.email;
 	const password = req.body.password;
-	const imgPath = "https://res.cloudinary.com/dohdiqnba/image/upload/v1589745964/Profile%20Image/img_avatar2_jz0i0o.png";
+	const imgPath =
+		"https://res.cloudinary.com/dohdiqnba/image/upload/v1589745964/Profile%20Image/img_avatar2_jz0i0o.png";
 	const salt = bcrypt.genSaltSync(bcryptSalt);
 	const hashPass = bcrypt.hashSync(password, salt);
 

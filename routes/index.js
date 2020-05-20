@@ -31,15 +31,20 @@ router.get("/", (req, res, next) => {
 	let currentUser;
 	// Getting username from basic auth
 	if (req.session.currentUser) {
-		currentUser = req.session.currentUser.username;
+		currentUser = req.session.currentUser;
+		console.log(currentUser)
 	}
 	// Getting username from passport
 	if (req.session.passport) {
 		currentUser = req.session.passport.user.username;
 	}
 	// Getting user playlists to main page
-	Playlist.find() 
+	Playlist.find({ user: currentUser._id}) 
 		.then(allPlaylistsForThisUser => {
+			// for(i=0; i<allPlaylistsFromDB.length; i++){
+				
+			// }
+			console.log(allPlaylistsForThisUser)
 			res.render('index',  { currentUser, playlist: allPlaylistsForThisUser } );  
 		}).catch((error) => {
 			next(error);
@@ -198,10 +203,10 @@ router.get('/playlist/:playlistId', (req, res, next) => {
 	//console.log('ENTRAAAAA',playlistId)
 
 	Playlist.findById(playlistId)
-		.populate('song')
+		.populate('songs')
 		.then(playlistIndividual => {
 			//console.log('XIXA', playlistIndividual)
-			res.render('playlist/playlist-detail', { playlist: playlistIndividual });
+			res.render('playlist/playlist-detail', { playlistIndividual})
 	})
 	.catch((error) => {
 		next(error);
