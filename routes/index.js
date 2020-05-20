@@ -90,7 +90,7 @@ router.get("/tracks/:id", (req, res) => {
 	spotifyApi
 		.getArtistAlbums(id)
 		.then((data) => {
-			 console.log('The received data from the API: ', data.body);
+			// console.log('The received data from the API: ', data.body);
 			// console.log('The received data from the API: ', data.body.images);
 			// console.log('One of the items of the data: ', data.body.artists.items[0])});
 			let items = data.body.items;
@@ -108,10 +108,10 @@ router.get("/tracks/:id", (req, res) => {
 			let counter = 1;
 			albumsIds.forEach((element) =>
 				spotifyApi.getAlbumTracks(element).then((data) => {
-					console.log('The received data from the API: ', data.body); 
+					// console.log('The received data from the API: ', data.body); 
 					let items = data.body.items;
-					console.log("THESE ARE THE SPOTI IDs for each SONG")
-					items.forEach((element)=> console.log(element.id))  // ID SPOTI SONGs AQUUUUUUUIIIIIIIIII
+					//console.log("THESE ARE THE SPOTI IDs for each SONG")
+					// items.forEach((element)=> console.log(element.id))  // ID SPOTI SONGs AQUUUUUUUIIIIIIIIII
 					items.forEach((element) => allTracks.push(element.name));
 					items.forEach((element) => allPreview_url.push(element.preview_url));
 
@@ -158,34 +158,12 @@ router.post("/add-playlist", (req, res, next) => {
 
 			for (let i = 0; i < songs.length; i++) {
 				songName = songs[i];
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-				// if (Song.find({songName: 'songName'})) {
-				// 	console.log("That song is already in the DB")
-				// 	// continue
-				// 	break
-				// } 
-
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
 				let newSong = new Song({ songName, artistname });
 
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-				// if (Song.find({songName: 'songName'})) {
-				// 	console.log("That song is already in the DB")
-				//         songName = "SONGTODELETE" --> then we delete the repeated song with if (Song.find({songName: 'SONGTODELETE'})) {
-				//         let newSong = new Song({ songName, artistname });
-				// 	// continue
-				// 	// break
-				// } 
-				// If the current song already exists in our MongoDB database
-				// we want to push the result._id to the newPlaylist of the Playlist collection
-				// but don't want to save the song in the Song collection
-
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-				newSong.save().then((result) => {
+				Song.findOne({ songName: songName })
+				.then((result) => {
+					console.log(result)
+					if (result !== null) {
 					newPlaylist
 						.updateOne(
 							({ artistname: "artistname" }, { $push: { songs: [result._id] } })
@@ -193,14 +171,24 @@ router.post("/add-playlist", (req, res, next) => {
 						.then((playlist) => {
 							console.log("Done");
 						});
-				});
+			
+					} else {
+						newSong.save().then((result) => {
+							newPlaylist
+								.updateOne(
+									({ artistname: "artistname" }, { $push: { songs: [result._id] } })
+								)
+								.then((playlist) => {
+									console.log("Done");
+								});
+						});
+					}
+				
+				})
 			}
 			res.redirect("/");
 		})
-		.catch((error) => {
-			next(error);
-		});
-});
+	});
 
 
 let playlistId;
@@ -212,17 +200,6 @@ router.get('/playlist/:playlistId', (req, res, next) => {
 	Playlist.findById(playlistId)
 		.populate('song')
 		.then(playlistIndividual => {
-
-
-
-			// for (i = 1; i < 4; i++) {
-			// 	Song.findById(playlistIndividual.songs)
-			// 	.then(element => nomeDasMusicas.push(element))
-			// }
-		
-
-
-
 			//console.log('XIXA', playlistIndividual)
 			res.render('playlist/playlist-detail', { playlist: playlistIndividual });
 	})
@@ -291,43 +268,6 @@ router.get("/playlist-edit/:id", (req, res) => {
 });
 
 
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   VIA UPDATE METHOD
-      // POST NEW songs to the playlist
-	//   router.post("/playlist-edit", (req, res, next) => {
-	// 	// save the new songs in the songs collection ...
-	// 	const songs = req.body.song;
-	// 	artistname = req.body.artist_name;
-	// 	console.log("THIS IS THE playlist-edit ROUTE")
-	// 	console.log(songs)
-	// 	console.log(artistname)
-	// 	console.log(playlistId)
-	   
-	// 	let otherSongs = [];
-	// 			   for (let i = 0; i < songs.length; i++) {
-	// 				   songName = songs[i];
-	// 				   let newSong = new Song({ songName, artistname });
-	   
-	// 				   newSong.save().then((result) => {
-	// 					   // ... then we have to update the MongoDB ids in the playlist collection (array songs)
-	// 					   console.log(result)
-	// 					   otherSongs.push(result._id)
-	// 					   console.log(otherSongs)
-						 
-	// 						   Playlist.update(
-	// 							   ({ _id: playlistId}, { $set: { songs: otherSongs } })
-	// 						   )
-	// 						   .then(() => {
-	// 							   console.log("THE END");
-	// 						   });
-						 
-						   
-	// 				   });
-	// 			   }
-	// 			   res.redirect("/");
-	//    });
-	
-	
-
 
 //  POST new set of chosen songs 
 //   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>   VIA DELETE and CREATE a NEW playlist
@@ -361,7 +301,10 @@ router.get("/playlist-edit/:id", (req, res) => {
 				songName = songs[i];
 				let newSong = new Song({ songName, artistname });
 
-				newSong.save().then((result) => {
+				Song.findOne({ songName: songName })
+				.then((result) => {
+					console.log(result)
+					if (result !== null) {
 					newPlaylist
 						.updateOne(
 							({ artistname: "artistname" }, { $push: { songs: [result._id] } })
@@ -369,8 +312,22 @@ router.get("/playlist-edit/:id", (req, res) => {
 						.then((playlist) => {
 							console.log("Done");
 						});
-				});
+			
+					} else {
+						newSong.save().then((result) => {
+							newPlaylist
+								.updateOne(
+									({ artistname: "artistname" }, { $push: { songs: [result._id] } })
+								)
+								.then((playlist) => {
+									console.log("Done");
+								});
+						});
+					}
+				
+				})
 			}
+
 			res.redirect("/");
 		})
 		.catch((error) => {
