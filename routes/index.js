@@ -28,19 +28,24 @@ let artistname;
 router.get("/", (req, res, next) => {
 	//const currentUser = req.session.currentUser;
 	//res.render("index", { currentUser });
-	let currentUser;
 	// Getting username from basic auth
-	if (req.session.currentUser) {
-		
+	// Getting username from passport
+	if (req.session.passport) {
+		let currentUser = req.session.passport.user;
 
-		// Getting username from passport
-		if (req.session.passport) {
-			currentUser = req.session.passport.user.username;
-		}
-		else {
-			currentUser = req.session.currentUser;
-		}
-		
+		//console.log('FIRST IF', req.session.passport);
+
+		Playlist.find({ user: req.session.passport.user._id}) 
+		.then(allPlaylistsForThisUser => {
+			res.render('index',  { currentUser, playlist: allPlaylistsForThisUser } );  
+		}).catch((error) => {
+			next(error);
+		});
+	}
+	else if (req.session.currentUser) {
+		let currentUser = req.session.currentUser;
+		//console.log('SECOND ELSE', currentUser);
+
 		Playlist.find({ user: currentUser._id}) 
 		.then(allPlaylistsForThisUser => {
 			res.render('index',  { currentUser, playlist: allPlaylistsForThisUser } );  
@@ -49,9 +54,10 @@ router.get("/", (req, res, next) => {
 		});
 	}
 	else {
+		//console.log('FINALLL')
 		res.render('index');
 	}
-	
+
 });
 
 // CHECK if the user is logged in and send to secret

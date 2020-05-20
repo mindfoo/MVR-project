@@ -54,11 +54,12 @@ passport.use(
 		(accessToken, refreshToken, profile, done) => {
 			User.findOne({ googleID: profile.id })
 				.then((user) => {
+					console.log(profile)
 					if (user) {
 						done(null, user);
 						return;
 					}
-					User.create({ googleID: profile.id, username: profile.username })
+					User.create({ googleID: profile.id, firstName: profile.name.givenName, lastName: profile.name.familyName, email:profile.emails[0].value,  username: profile.displayName, imgPath:profile.photos[0].value })
 						.then((newUser) => {
 							done(null, newUser);
 						})

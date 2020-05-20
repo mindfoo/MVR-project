@@ -6,11 +6,21 @@ const router = express.Router();
 //profile route
 router.get("/profile", (req, res, next) => {
 	try {
-		const currentUser = req.session.currentUser;
-		User.findById(currentUser._id).then((theUser) => {
-			console.log(theUser)
-			res.render("profile/profile", { theUser });
-		});
+		if (req.session.passport) {
+			let currentUser = req.session.passport.user;
+			User.findById(currentUser._id).then((theUser) => {
+				console.log(theUser)
+				res.render("profile/profile", { theUser });
+			});
+		}
+		else {
+			const currentUser = req.session.currentUser;
+			User.findById(currentUser._id).then((theUser) => {
+				console.log(theUser)
+				res.render("profile/profile", { theUser });
+			});
+		}
+		
 	} catch (e) {
 		console.log(e)
 	}
@@ -18,7 +28,7 @@ router.get("/profile", (req, res, next) => {
 
 // CHECK if the user is logged in and send to secret
 router.use((req, res, next) => {
-	if (req.session.currentUser) {
+	if (req.session.currentUser || req.session.passport.user) {
 		next();
 	} else {
 		res.redirect("/login");
@@ -30,7 +40,9 @@ router.get("/profile/edit", (req, res) => {
 	const userId = req.query.user_id;
 	User.findById(userId)
 		.then((theUser) => {
+			console.log(theUser)
 			res.render("profile/profile-edit", { user: theUser });
+			
 		})
 		.catch((error) => {
 			console.log(e)

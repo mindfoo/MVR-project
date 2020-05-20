@@ -156,15 +156,11 @@ router.post("/signup", (req, res, next) => {
 
 //Logout route
 router.get("/logout", (req, res, next) => {
-	if (req.session.passport) {
-		req.logout()
-		res.redirect("/");
-	}
-	else {
+		console.log('ENTRAAAAA')
+		req.logout();
 		req.session.destroy(() => {
 			res.redirect("/");
 		})
-	}
 	
 });
 
