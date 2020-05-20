@@ -54,7 +54,7 @@ passport.use(
 		(accessToken, refreshToken, profile, done) => {
 			User.findOne({ googleID: profile.id })
 				.then((user) => {
-					console.log(profile)
+					//console.log(profile)
 					if (user) {
 						done(null, user);
 						return;

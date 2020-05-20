@@ -294,6 +294,18 @@ router.get("/playlist-edit/:id", (req, res) => {
 		);
 });
 
+// DELETE A PLAYLIST
+router.get("/playlist-delete/:id", (req, res) => {
+	// console.log(req.params.id)
+	let id = req.params.id;
+	Playlist.findByIdAndDelete(id)
+	.then((result) => {
+		console.log("Successful deleted Playlist!")
+		res.redirect('/');
+		
+	}).catch((err)=>console.log(err))
+})
+
 
 
 //  POST new set of chosen songs 
