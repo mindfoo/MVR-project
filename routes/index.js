@@ -127,6 +127,7 @@ router.get("/tracks/:id", (req, res) => {
 						allTracks = new Set(allTracks); // remove os duplicados
 						allInfo.name = allTracks;
 						allInfo.preview = allPreview_url;
+
 						//console.log(allInfo);
 						let data = { allInfo, artist_name };
 						//console.log("MAYBE", data);
@@ -151,6 +152,18 @@ router.get("/tracks/:id", (req, res) => {
 router.post("/add-playlist", (req, res, next) => {
 	const songs = req.body.song;
 	console.log(songs)
+
+// Check if the user picked up 3 and only 3 songs
+	if (songs.length !== 3) {
+		console.log("So trés")
+		// res.redirect("/")
+		res.render("playlist/all-tracks", {
+			errorMessage: "Your playlist was not created, choose 3 songs",
+		})
+		return
+	}
+
+
 	artistname = req.body.artist_name;
 
 	let user = req.session.currentUser._id;
@@ -284,13 +297,26 @@ router.get("/playlist-edit/:id", (req, res) => {
     console.log(artistname)
 	console.log(playlistId)
 
+	// Check if the user picked up 3 and only 3 songs
+	if (songs.length !== 3) {
+		console.log("So trés")
+		// res.redirect("/")
+		res.render("playlist/all-tracks-edit", {
+			errorMessage: "Your playlist was not created, choose 3 songs",
+		})
+		return
+	}
+
     // REMOVE THE OLD PLAYLIST
 	Playlist.findByIdAndDelete(playlistId)
 	.then((result) => {
         console.log("Old Playlist removed. The SPOTIFY id of the artist is:")
         console.log(result.id)
         // return result.id
-    })
+	})
+	
+	
+
 
 	// CREATE A NEW PLAYLIST
 	let user = req.session.currentUser._id;

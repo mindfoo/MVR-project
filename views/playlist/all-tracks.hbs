@@ -25,6 +25,10 @@
      <input type="text" name="artist_name" value="{{ data.artist_name }}" style="visibility:hidden; display:none;"/>
 </form>
 
+  {{#if errorMessage}}
+    <div class="error-message">{{ errorMessage }}</div>
+  {{/if}}
+
 {{!-- TO DO  
      --> Create a FORM with 3 columns
           In the first the name of the songs (allInfo.name)
