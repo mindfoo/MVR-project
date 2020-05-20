@@ -49,8 +49,7 @@ router.post("/login", (req, res, next) => {
 
 	//TODO add fallbacks
 	if (!username || !password) {
-		res
-			.render("auth/login", {
+		res.render("auth/login", {
 				errorMessage: "Indicate a username and password",
 			})
 			.catch((error) => {
