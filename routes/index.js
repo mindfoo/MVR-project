@@ -31,24 +31,27 @@ router.get("/", (req, res, next) => {
 	let currentUser;
 	// Getting username from basic auth
 	if (req.session.currentUser) {
-		currentUser = req.session.currentUser;
-		console.log(currentUser)
-	}
-	// Getting username from passport
-	if (req.session.passport) {
-		currentUser = req.session.passport.user.username;
-	}
-	// Getting user playlists to main page
-	Playlist.find({ user: currentUser._id}) 
+		
+
+		// Getting username from passport
+		if (req.session.passport) {
+			currentUser = req.session.passport.user.username;
+		}
+		else {
+			currentUser = req.session.currentUser;
+		}
+		
+		Playlist.find({ user: currentUser._id}) 
 		.then(allPlaylistsForThisUser => {
-			// for(i=0; i<allPlaylistsFromDB.length; i++){
-				
-			// }
-			console.log(allPlaylistsForThisUser)
 			res.render('index',  { currentUser, playlist: allPlaylistsForThisUser } );  
 		}).catch((error) => {
 			next(error);
 		});
+	}
+	else {
+		res.render('index');
+	}
+	
 });
 
 // CHECK if the user is logged in and send to secret
