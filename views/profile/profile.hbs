@@ -17,12 +17,12 @@
                     <li class="nav-item dropdown">
                         <div class="dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-                                <img src="{{currentUser.imgPath}}" width="40" height="40" class="rounded-circle">
+                                <img src="{{theUser.imgPath}}" width="40" height="40" class="rounded-circle">
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="/profile">My Profile</a>
                                         <a class="dropdown-item" href="#">My Playlists</a>
-                                        <a class="dropdown-item" href="/profile/edit?user_id={{currentUser._id}}">Edit Profile</a>
+                                        <a class="dropdown-item" href="/profile/edit?user_id={{theUser._id}}">Edit Profile</a>
                                         <a class="dropdown-item" href="/logout">Log Out</a>
                             </div>
                         </div>
