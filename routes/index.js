@@ -332,7 +332,11 @@ router.post("/playlist-edit", (req, res, next) => {
 	});
 
 	// CREATE A NEW PLAYLIST
-	let user = req.session.currentUser._id;
+	if (req.session.passport) {
+		user = req.session.passport.user._id;
+	} else {
+		user = req.session.currentUser._id;
+	}
 	let id = id_toedit;
 	const newPlaylist = new Playlist({ artistname, user, id });
 
