@@ -15,14 +15,16 @@
             <div class="collapse navbar-collapse" id="navbar-list-4">
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="{{theUser.imgPath}}" width="40" height="40" class="rounded-circle">
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                                <img src="{{currentUser.imgPath}}" width="40" height="40" class="rounded-circle">
                             </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="/profile">My Profile</a>
-                            <a class="dropdown-item" href="#">My Playlists</a>
-                            <a class="dropdown-item" href="/profile/edit?user_id={{theUser._id}}">Edit Profile</a>
-                            <a class="dropdown-item" href="/logout">Log Out</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="/profile">My Profile</a>
+                                        <a class="dropdown-item" href="#">My Playlists</a>
+                                        <a class="dropdown-item" href="/profile/edit?user_id={{currentUser._id}}">Edit Profile</a>
+                                        <a class="dropdown-item" href="/logout">Log Out</a>
+                            </div>
                         </div>
                     </li>   
                 </ul>

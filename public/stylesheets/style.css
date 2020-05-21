@@ -50,6 +50,9 @@ a {
   justify-content: space-evenly;
   width: 100%; }
 
+.dropdown.open .dropdown-menu {
+  display: block; }
+
 .btn-google {
   color: #545454;
   background-color: #ffffff;
