@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Song = require("../models/song");
 const Playlist = require("../models/playlist");
+const User = require("../models/user");
 
 // Require Spotify
 const SpotifyWebApi = require("spotify-web-api-node");
@@ -33,25 +34,33 @@ router.get("/", (req, res, next) => {
 		let currentUser = req.session.passport.user;
 
 		//console.log('FIRST IF', req.session.passport);
-
-		Playlist.find({ user: req.session.passport.user._id })
-			.then((allPlaylistsForThisUser) => {
-				res.render("index", { currentUser, playlist: allPlaylistsForThisUser });
-			})
-			.catch((error) => {
-				next(error);
-			});
+		User.findById(currentUser._id).then((currentUser) => {
+			Playlist.find({ user: req.session.passport.user._id })
+				.then((allPlaylistsForThisUser) => {
+					res.render("index", {
+						currentUser,
+						playlist: allPlaylistsForThisUser,
+					});
+				})
+				.catch((error) => {
+					next(error);
+				});
+		});
 	} else if (req.session.currentUser) {
 		let currentUser = req.session.currentUser;
 		//console.log('SECOND ELSE', currentUser);
-
-		Playlist.find({ user: currentUser._id })
-			.then((allPlaylistsForThisUser) => {
-				res.render("index", { currentUser, playlist: allPlaylistsForThisUser });
-			})
-			.catch((error) => {
-				next(error);
-			});
+		User.findById(currentUser._id).then((currentUser) => {
+			Playlist.find({ user: currentUser._id })
+				.then((allPlaylistsForThisUser) => {
+					res.render("index", {
+						currentUser,
+						playlist: allPlaylistsForThisUser,
+					});
+				})
+				.catch((error) => {
+					next(error);
+				});
+		});
 	} else {
 		//console.log('FINALLL')
 		res.render("index");
@@ -156,7 +165,7 @@ router.get("/tracks/:id", (req, res) => {
 });
 
 // POST chosen songs to Database and add playlist
-router.post("/add-playlist", (req, res, next) => {
+router.post("/add-playlist", async (req, res, next) => {
 	const songs = req.body.song;
 	console.log(songs);
 
@@ -176,7 +185,24 @@ router.post("/add-playlist", (req, res, next) => {
 	} else {
 		user = req.session.currentUser._id;
 	}
-
+	let playlistExists;
+	try {
+		playlistExists = await Playlist.find({
+			artistname: artistname,
+			user: user,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+	/* Playlist.find({ artistname: artistname, user: user}).then((result) => {
+		console.log("result", result) */
+	if (playlistExists != null) {
+		res.render("playlist/all-tracks", {
+			errorMessage: "you have already selected an artiname",
+		});
+	}
+	/* 	return
+	}); */
 	const newPlaylist = new Playlist({ artistname, user, id });
 
 	newPlaylist.save().then((playlist) => {
@@ -295,16 +321,14 @@ router.get("/playlist-delete/:id", (req, res) => {
 	// console.log(req.params.id)
 	let id = req.params.id;
 	Playlist.findByIdAndDelete(id)
-	.then((result) => {
-		console.log("Successful deleted Playlist!")
-		res.redirect('/');
-		
-	}).catch((err)=>console.log(err))
-})
+		.then((result) => {
+			console.log("Successful deleted Playlist!");
+			res.redirect("/");
+		})
+		.catch((err) => console.log(err));
+});
 
-
-
-//  POST new set of chosen songs 
+//  POST new set of chosen songs
 //   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>   VIA DELETE and CREATE a NEW playlist
 router.post("/playlist-edit", (req, res, next) => {
 	const songs = req.body.song;
