@@ -198,7 +198,7 @@ router.post("/add-playlist", async (req, res, next) => {
 		console.log("result", result) */
 	if (playlistExists != null) {
 		res.render("playlist/all-tracks", {
-			errorMessage: "you have already selected an artiname",
+			errorMessage: "You have already this choose this artist, edit or delete to choose other songs",
 		});
 	}
 	/* 	return
