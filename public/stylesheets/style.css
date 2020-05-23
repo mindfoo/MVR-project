@@ -236,8 +236,32 @@ input {
   border-color: #8dff1c !important;
   width: 100% !important; }
 
+.wrap-column {
+  column-count: 2; }
+
 @media screen and (max-width: 600px) {
   #form {
     width: 100%; } }
+
+@media screen and (max-width: 500px) {
+  body {
+    padding: 10px; }
+  .navbar {
+    padding: 0;
+    margin: 0; }
+  .logo {
+    font-size: 0;
+    margin: 0 !important; }
+  .wrap-column {
+    column-count: 1; }
+  h2.display-4 {
+    font-size: 2em; }
+  .major-title {
+    margin: 50px 0; }
+  .avatar {
+    margin: auto;
+    text-align: center;
+    display: inherit;
+    margin: 0 auto 30px; } }
 
 /*# sourceMappingURL=style.css.map */
