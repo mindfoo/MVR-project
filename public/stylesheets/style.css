@@ -20,6 +20,9 @@ body {
     body.home > * {
       color: white; }
 
+.input-group-prepend input {
+  height: auto; }
+
 a {
   color: #222; }
   a:hover {

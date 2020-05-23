@@ -30,9 +30,11 @@ body {
 	}
 }
 
-// .input-group-prepend {
-//     height: 38px;
-// }
+.input-group-prepend {
+    input {
+		height: auto;
+	}
+}
 
 a {
 	color: $dark-grey;
