@@ -253,7 +253,7 @@ router.post("/add-playlist", (req, res, next) => {
 				res.redirect("/");
 			});
 		} else {
-			res.render("playlist/all-tracks", {
+			res.render("playlist/all-tracks", {theUser, artist_name,
 				errorMessage:
 					"You have already choose this artist, edit or delete to choose other songs",
 			});
