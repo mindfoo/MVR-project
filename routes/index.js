@@ -218,8 +218,13 @@ router.post("/add-playlist", async (req, res, next) => {
 	/* Playlist.find({ artistname: artistname, user: user}).then((result) => {
 		console.log("result", result) */
 	if (playlistExists != null) {
+		if (req.session.passport) {
+			theUser = req.session.passport.user;
+		} else {
+			theUser = req.session.currentUser;
+		}
 		res.render("playlist/all-tracks", {
-			errorMessage: "You have already choose this artist, edit or delete to choose other songs",
+			errorMessage: "You have already choose this artist, edit or delete to choose other songs", theUser
 		});
 		return
 	}
