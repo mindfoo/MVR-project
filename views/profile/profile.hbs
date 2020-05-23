@@ -12,7 +12,7 @@
                     <img src="{{theUser.imgPath}}" width="40" height="40" class="rounded-circle">
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/profile/edit?user_id={{currentUser._id}}">Edit Profile</a>
+                        <a class="dropdown-item" href="/profile/edit?user_id={{theUser._id}}">Edit Profile</a>
                         <a class="dropdown-item" href="/logout">Log Out</a>
                 </div>
             </div>
@@ -46,6 +46,6 @@
     </div>
 </div>
 <hr>
-<a href="/profile/edit?user_id={{theUser._id}}"></a><button type="button" class="btn btn-primary mr-3">Edit</button></a>
+<a href="/profile/edit?user_id={{theUser._id}}"><button type="button" class="btn btn-primary mr-3">Edit</button></a>
 
 <a href="/"><button type="button" class="btn btn-light">Back to Main Page</button></a>
