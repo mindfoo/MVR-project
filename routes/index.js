@@ -196,6 +196,8 @@ router.post("/add-playlist", (req, res, next) => {
 		console.log("So trés");
 		// res.redirect("/")
 		res.render("playlist/all-tracks", {
+			theUser,
+			artist_name,
 			errorMessage: "Your playlist was not created, choose 3 songs",
 		});
 		return;
@@ -253,7 +255,9 @@ router.post("/add-playlist", (req, res, next) => {
 				res.redirect("/");
 			});
 		} else {
-			res.render("playlist/all-tracks", {theUser, artist_name,
+			res.render("playlist/all-tracks", {
+				theUser,
+				artist_name,
 				errorMessage:
 					"You have already choose this artist, edit or delete to choose other songs",
 			});
