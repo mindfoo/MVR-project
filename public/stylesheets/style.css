@@ -15,7 +15,8 @@ body {
   position: relative; }
   body.home {
     background: url(../images/bg6.jpg) no-repeat center center;
-    background-size: cover; }
+    background-size: cover;
+    background-attachment: fixed; }
     body.home > * {
       color: white; }
 
