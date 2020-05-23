@@ -40,7 +40,7 @@ router.get("/", (req, res, next) => {
 					res.render("index", {
 						currentUser,
 						playlist: allPlaylistsForThisUser,
-						template:'home'
+						template: "home",
 					});
 				})
 				.catch((error) => {
@@ -56,7 +56,7 @@ router.get("/", (req, res, next) => {
 					res.render("index", {
 						currentUser,
 						playlist: allPlaylistsForThisUser,
-						template:'home'
+						template: "home",
 					});
 				})
 				.catch((error) => {
@@ -65,7 +65,7 @@ router.get("/", (req, res, next) => {
 		});
 	} else {
 		//console.log('FINALLL')
-		res.render("index", {template: 'home'});
+		res.render("index", { template: "home" });
 	}
 });
 
@@ -86,7 +86,7 @@ router.get("/artist-search", (req, res) => {
 	} else {
 		theUser = req.session.currentUser;
 	}
-	res.render("playlist/artist-search", {theUser});
+	res.render("playlist/artist-search", { theUser });
 });
 
 // GET results for artists search
@@ -106,7 +106,11 @@ router.get("/artist-search-action", (req, res, next) => {
 			} else {
 				theUser = req.session.currentUser;
 			}
-			res.render("playlist/artist-search-results", { artists, artistname, theUser });
+			res.render("playlist/artist-search-results", {
+				artists,
+				artistname,
+				theUser,
+			});
 			return artistname; // we need the artist name (artistname) in the router.post (/add-playlist)
 		})
 		.catch((err) =>
@@ -183,7 +187,7 @@ router.get("/tracks/:id", (req, res) => {
 });
 
 // POST chosen songs to Database and add playlist
-router.post("/add-playlist", async (req, res, next) => {
+router.post("/add-playlist", (req, res, next) => {
 	const songs = req.body.song;
 	console.log(songs);
 
@@ -205,61 +209,55 @@ router.post("/add-playlist", async (req, res, next) => {
 		user = req.session.currentUser._id;
 	}
 
-	let playlistExists;
+	Playlist.find({
+		artistname: artistname,
+		user: user,
+	}).then((playlistExists) => {
+		console.log("before IF", playlistExists);
+		if (playlistExists.length === 0) {
+			console.log("Inside if", playlistExists);
+			const newPlaylist = new Playlist({ artistname, user, id });
+			newPlaylist.save().then((playlist) => {
+				console.log("inside playlist create", playlist);
+				let newSongsId = [];
 
-	try {
-		playlistExists = await Playlist.find({
-			artistname: artistname,
-			user: user,
-		});
-	} catch (error) {
-		console.log(error);
-	}
-	/* Playlist.find({ artistname: artistname, user: user}).then((result) => {
-		console.log("result", result) */
-	if (playlistExists != null) {
-		res.render("playlist/all-tracks", {
-			errorMessage: "You have already choose this artist, edit or delete to choose other songs",
-		});
-		return
-	}
-	/* 	return
-	}); */
+				for (let i = 0; i < songs.length; i++) {
+					songName = songs[i];
+					let newSong = new Song({ songName, artistname });
 
-	const newPlaylist = new Playlist({ artistname, user, id });
-
-	newPlaylist.save().then((playlist) => {
-		let newSongsId = [];
-
-		for (let i = 0; i < songs.length; i++) {
-			songName = songs[i];
-			let newSong = new Song({ songName, artistname });
-
-			Song.findOne({ songName: songName }).then((result) => {
-				console.log(result);
-				if (result !== null) {
-					newPlaylist
-						.updateOne(
-							({ artistname: "artistname" }, { $push: { songs: [result._id] } })
-						)
-						.then((playlist) => {
-							console.log("Done");
-						});
-				} else {
-					newSong.save().then((result) => {
-						newPlaylist
-							.updateOne(
-								({ artistname: "artistname" },
-								{ $push: { songs: [result._id] } })
-							)
-							.then((playlist) => {
-								console.log("Done");
+					Song.findOne({ songName: songName }).then((result) => {
+						console.log(result);
+						if (result !== null) {
+							newPlaylist
+								.updateOne(
+									({ artistname: "artistname" },
+									{ $push: { songs: [result._id] } })
+								)
+								.then((playlist) => {
+									console.log("Done");
+								});
+						} else {
+							newSong.save().then((result) => {
+								newPlaylist
+									.updateOne(
+										({ artistname: "artistname" },
+										{ $push: { songs: [result._id] } })
+									)
+									.then((playlist) => {
+										console.log("Done");
+									});
 							});
+						}
 					});
 				}
+				res.redirect("/");
+			});
+		} else {
+			res.render("playlist/all-tracks", {
+				errorMessage:
+					"You have already choose this artist, edit or delete to choose other songs",
 			});
 		}
-		res.redirect("/");
 	});
 });
 
@@ -333,7 +331,11 @@ router.get("/playlist-edit/:id", (req, res) => {
 						} else {
 							theUser = req.session.currentUser;
 						}
-						res.render("playlist/all-tracks-edit", { data, artist_name, theUser });
+						res.render("playlist/all-tracks-edit", {
+							data,
+							artist_name,
+							theUser,
+						});
 					}
 					//console.log(counter);
 					//console.log(albumsIds.length);
