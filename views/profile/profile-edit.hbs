@@ -1,61 +1,51 @@
 {{!-- Navbar --}}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <div class="logo mr-4"><img src="#" alt="logo"/>MVR</div>
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
-            </li>
+    
+    <div class="navbar" id="navbarSupportedContent">
+        <a class="nav-link" href="/"><div class="logo mr-4"><img src="../images/logo.png" alt="logo"/>MVR</div></a>
+        <div class="right-align">
             <li class="nav-link">
                 <a href="/artist-search">Create Playlist</a>
             </li>
-        </ul>
-        <div class="right-align">
-            {{!-- <li class="nav-link">
-				<a href="/profile">
-				    <img class="avatar-nav-bar" src="{{theUser.imgPath}}" alt="{{theUser.imgName}}">
-				</a></li> --}}
-                <div class="collapse navbar-collapse" id="navbar-list-4">
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                          <div class="dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-                                <img src="{{user.imgPath}}" width="40" height="40" class="rounded-circle">
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="/profile">My Profile</a>
-                                        {{!-- <a class="dropdown-item" href="#">My Playlists</a> --}}
-                                        <a class="dropdown-item" href="/profile/edit?user_id={{user._id}}">Edit Profile</a>
-                                        <a class="dropdown-item" href="/logout">Log Out</a>
-                            </div>
-                        </div>
-            </li>   
-    </ul>
-  </div>
-                {{!-- <li class="nav-link"><a href="/logout">Logout</a></li> --}}
+            <div class="dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                    <img src="{{user.imgPath}}" width="40" height="40" class="rounded-circle">
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/profile/edit?user_id={{currentUser._id}}">Edit Profile</a>
+                        <a class="dropdown-item" href="/logout">Log Out</a>
+                </div>
+            </div>
         </div>
-  </div>
+    </div>
 </nav>
 
-<h1>Edit Profile</h1>
+<h1 class="major-title">Edit Profile</h1>
+
 <img class="avatar" src="{{user.imgPath}}" alt="{{user.imgName}}"></p>
 <form action="/profile/edit?user_id={{user._id}}" method="POST" enctype="multipart/form-data">
-  <label for="">Username</label>
-  <input type="text" value="{{user.username}}" name="username">
-	<br>
-  <label for="">First Name</label>
-  <input type="text" value="{{user.firstName}}" name="firstName">
-	<br>
-  <label for="">Lastname</label>
-  <input type="text" value="{{user.lastName}}" name="lastName">
-	<br>
-	<label for="">Email</label>
-  <input type="email" value="{{user.email}}" name="email">
-	<br>
-  <label>Profile Image</label>
-  <input type="file" name="photo" value="{{user.imgPath}}">
+  <div class="md-6 d-flex align-items-center mb-2">
+    <label for="" class="m-0 mr-2" style="min-width: 90px;">Username: </label>
+    <input type="text" value="{{user.username}}" name="username">
+  </div>
+	<div class="md-6 d-flex align-items-center mb-2">
+    <label for="" class="m-0 mr-2" style="min-width: 90px;">First Name: </label>
+    <input type="text" value="{{user.firstName}}" name="firstName">
+  </div>
+	<div class="md-6 d-flex align-items-center mb-2">
+    <label for="" class="m-0 mr-2" style="min-width: 90px;">Lastname: </label>
+    <input type="text" value="{{user.lastName}}" name="lastName">
+  </div>
+	<div class="md-6 d-flex align-items-center mb-2">
+    <label for="" class="m-0 mr-2" style="min-width: 90px;">Email: </label>
+    <input type="email" value="{{user.email}}" name="email">
+  </div>
+	<div class="md-6 d-flex align-items-center mb-2">
+    <label class="m-0 mr-2" style="min-width: 90px;">Profile Image</label>
+    <input type="file" name="photo" value="{{user.imgPath}}">
+  </div>
   <br>
+
   {{#if errorMessage}}
     <div class="error-message">{{ errorMessage }}</div>
   {{/if}}

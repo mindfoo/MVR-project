@@ -1,41 +1,50 @@
-{{!-- Navbar --}}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <div class="logo mr-4"><img src="#" alt="logo"/>MVR</div>
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
-            </li>
-        </ul>
+    
+    <div class="navbar" id="navbarSupportedContent">
+        <a class="nav-link" href="/"><div class="logo mr-4"><img src="../images/logo.png" alt="logo"/>MVR</div></a>
+            {{#if currentUser}}
+            {{else}}
+                <div class="right-align">
+                    <li class="nav-link">
+                        <a href="/login">Login</a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/">Back Home</a>
+                    </li>
+                </div>
+            {{/if}}
+        </div>
     </div>
 </nav>
 
 <form id="form" action="/signup" method="POST">
   <h2>Signup</h2>
-  <label>First Name</label>
-  <input type="text" name="firstName" placeholder="Your first name" >
-  <label>Last Name</label>
-  <input type="text" name="lastName" placeholder="Your last name" >
-  <label>Username</label>
-  <input type="text" name="username" placeholder="Your username" >
-  <label>E-mail</label>
-  <input type="text" name="email" placeholder="Your e-mail" >
-  <label>Password</label>
-  <input id="pass" type="password" name="password" placeholder="******" >
+  <div class="form-row">
+      <label>First Name:</label>
+      <input type="text" name="firstName" placeholder="Your first name" >
+      <label>Last Name:</label>
+      <input type="text" name="lastName" placeholder="Your last name" >
+      <label>Username:</label>
+      <input type="text" name="username" placeholder="Your username" >
+      <label>E-mail:</label>
+      <input type="text" name="email" placeholder="Your e-mail" >
+      <label>Password:</label>
+      <input id="pass" type="password" name="password" placeholder="******" >
+  </div>
 
   {{#if errorMessage}}
     <div class="error-message">{{ errorMessage }}</div>
   {{/if}}
   
-  <button type="submit">Signup</button>
+  <button type="submit" class="btn btn-primary">Signup</button>
 
   <div class="form-group">
     <a class="btn btn-lg btn-google btn-block btn-outline" href="/auth/google">
-      <img src="https://img.icons8.com/color/16/000000/google-logo.png"></i> Sign up with Google
+      <img src="https://img.icons8.com/color/16/000000/google-logo.png"/>Sign up with Google
     </a>
   </div>
 
-  <p class="account-message">
-    Do you have an account? <a href="/login">Login</a>
+  <p class="account-message text-muted">
+    Do you have an account? <a href="/login">Login here.</a>
   </p>
 </form>

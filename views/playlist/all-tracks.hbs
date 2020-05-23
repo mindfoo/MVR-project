@@ -1,5 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    
+    <div class="navbar" id="navbarSupportedContent">
+        <a class="nav-link" href="/"><div class="logo mr-4"><img src="../images/logo.png" alt="logo"/>MVR</div></a>
+            <div class="right-align">
+                 <li class="nav-link">
+                    <a href="/artist-search">Back to Search Page</a>
+                </li>
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                        <img src="{{theUser.imgPath}}" width="40" height="40" class="rounded-circle">
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/profile">My Profile</a>
+                            <a class="dropdown-item" href="/profile/edit?user_id={{currentUser._id}}">Edit Profile</a>
+                            <a class="dropdown-item" href="/logout">Log Out</a>
+                    </div>
+                </div>
+            </div>
+                
+        </div>
+    </div>
+</nav>
+
+
+
 <div class="text-left mt-5 mb-5">
-    <button type="button" class="btn btn-light mb-5"><a href="/">Back to Main Page</a></button><br>
+    {{!-- <button type="button" class="btn btn-light mb-5"><a href="/">Back to Main Page</a></button><br> --}}
     <h2 class="display-4 light text-left">3. Vote on your favourite tracks of <strong>{{artist_name}}</strong></h2>
 </div>
 
@@ -9,7 +35,7 @@
           {{#each data.allInfo.name }}
                <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                         <div class="input-group-text">
+                         <div class="input-group-text form-control">
                               <input type="checkbox" aria-label="Checkbox for following text input" id="song-single" name="song"  value="{{ this }}"/>
                          </div>
                     </div>

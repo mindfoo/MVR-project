@@ -40,6 +40,7 @@ router.get("/", (req, res, next) => {
 					res.render("index", {
 						currentUser,
 						playlist: allPlaylistsForThisUser,
+						template:'home'
 					});
 				})
 				.catch((error) => {
@@ -55,6 +56,7 @@ router.get("/", (req, res, next) => {
 					res.render("index", {
 						currentUser,
 						playlist: allPlaylistsForThisUser,
+						template:'home'
 					});
 				})
 				.catch((error) => {
@@ -63,7 +65,7 @@ router.get("/", (req, res, next) => {
 		});
 	} else {
 		//console.log('FINALLL')
-		res.render("index");
+		res.render("index", {template: 'home'});
 	}
 });
 
@@ -79,7 +81,12 @@ router.use((req, res, next) => {
 
 // GET Search for artists
 router.get("/artist-search", (req, res) => {
-	res.render("playlist/artist-search");
+	if (req.session.passport) {
+		theUser = req.session.passport.user;
+	} else {
+		theUser = req.session.currentUser;
+	}
+	res.render("playlist/artist-search", {theUser});
 });
 
 // GET results for artists search
@@ -94,7 +101,12 @@ router.get("/artist-search-action", (req, res, next) => {
 			//  console.log('One of the items of the data: ', data.body.artists.items[0]);
 			let artists = data.body.artists.items;
 			//  console.log('sending data to artist-search results')
-			res.render("playlist/artist-search-results", { artists, artistname });
+			if (req.session.passport) {
+				theUser = req.session.passport.user;
+			} else {
+				theUser = req.session.currentUser;
+			}
+			res.render("playlist/artist-search-results", { artists, artistname, theUser });
 			return artistname; // we need the artist name (artistname) in the router.post (/add-playlist)
 		})
 		.catch((err) =>
@@ -147,8 +159,14 @@ router.get("/tracks/:id", (req, res) => {
 						//console.log(allInfo);
 						let data = { allInfo, artist_name };
 						//console.log("MAYBE", data);
+						if (req.session.passport) {
+							theUser = req.session.passport.user;
+						} else {
+							theUser = req.session.currentUser;
+						}
+
 						console.log(artist_name);
-						res.render("playlist/all-tracks", { data, artist_name });
+						res.render("playlist/all-tracks", { data, artist_name, theUser });
 					}
 					//console.log(counter);
 					//console.log(albumsIds.length);
@@ -180,12 +198,15 @@ router.post("/add-playlist", async (req, res, next) => {
 	}
 	let user;
 	artistname = req.body.artist_name;
+
 	if (req.session.passport) {
 		user = req.session.passport.user._id;
 	} else {
 		user = req.session.currentUser._id;
 	}
+
 	let playlistExists;
+
 	try {
 		playlistExists = await Playlist.find({
 			artistname: artistname,
@@ -204,6 +225,7 @@ router.post("/add-playlist", async (req, res, next) => {
 	}
 	/* 	return
 	}); */
+
 	const newPlaylist = new Playlist({ artistname, user, id });
 
 	newPlaylist.save().then((playlist) => {
@@ -251,7 +273,12 @@ router.get("/playlist/:playlistId", (req, res, next) => {
 		.populate("songs")
 		.then((playlistIndividual) => {
 			//console.log('XIXA', playlistIndividual)
-			res.render("playlist/playlist-detail", { playlistIndividual });
+			if (req.session.passport) {
+				theUser = req.session.passport.user;
+			} else {
+				theUser = req.session.currentUser;
+			}
+			res.render("playlist/playlist-detail", { playlistIndividual, theUser });
 		})
 		.catch((error) => {
 			next(error);
@@ -301,7 +328,12 @@ router.get("/playlist-edit/:id", (req, res) => {
 						let data = { allInfo, artist_name };
 						//console.log("MAYBE", data);
 						console.log(artist_name);
-						res.render("playlist/all-tracks-edit", { data, artist_name });
+						if (req.session.passport) {
+							theUser = req.session.passport.user;
+						} else {
+							theUser = req.session.currentUser;
+						}
+						res.render("playlist/all-tracks-edit", { data, artist_name, theUser });
 					}
 					//console.log(counter);
 					//console.log(albumsIds.length);

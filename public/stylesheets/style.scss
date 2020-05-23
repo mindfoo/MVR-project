@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;500;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;700&display=swap');
 $dark-grey: #222;
 $light-grey: #666;
 
@@ -6,20 +6,66 @@ $light-grey: #666;
 	margin: 0;
 	padding: 0;
 }
-body {
-  padding: 3rem;
-  color: $dark-grey;
-  font-family: 'Ubuntu', sans-serif;
+
+html {
+    height: 100vh;
 }
+
+body {
+    padding: 3rem;
+    color: #222;
+    font-family: 'Cabin', sans-serif;
+    height: 100vh;
+    display: block;
+    position: relative;
+	
+	&.home{
+		background: url(../images/bg6.jpg) no-repeat center center;
+		background-size: cover;
+
+		&>*{
+			color:white;
+		}
+	}
+}
+
+// .input-group-prepend {
+//     height: 38px;
+// }
 
 a {
 	color: $dark-grey;
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+section {
+	position:relative;
+}
+
+h1.welcome {
+    top: calc(50vh - 190px);
+    position: absolute;
+    width: 100%;
+}
+
+.logo {
+    width: 30px;
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+	img {
+		width: 100%;
+		display: inline-block;
+		margin: 0 5px;
+	}
 }
 
 .proj-name {
 	font-size: 22px;
 	text-transform: uppercase;
-	font-weight: 600;
+	font-weight: 700;
 }
 
 .wrap.text-center {
@@ -34,8 +80,9 @@ a {
 .light {
 	font-weight: 300;
 }
-.my-profile {
+.major-title {
 	text-align: center;
+	margin-top: 50px;
 }
 .card {
 	img {
@@ -58,7 +105,7 @@ a {
 	}
 }
 .navbar{
-	justify-content: space-evenly;
+	justify-content: space-between;
 	width: 100%;
 }
 
@@ -95,8 +142,9 @@ a {
 }
 
 .right-align {
-	display: inherit;
-	float: right;
+	display: flex;
+    float: right;
+    align-items: center;
 }
 
 li {
@@ -122,6 +170,14 @@ li {
 
 // Form
 
+
+input {
+	background: #fafafa;
+	padding: 10px;
+	height: 40px;
+	border: none;
+}
+
 #form {
 	margin: 30px auto;
 	width: 380px;
@@ -133,8 +189,8 @@ li {
 		color: $light-grey;
 		display: inline-block;
 		margin-bottom: 10px;
-		text-align: center;
 		width: 100%;
+		text-align: left;
 	}
 
 	input,
@@ -142,31 +198,12 @@ li {
 		box-sizing: border-box;
 		font-size: 14px;
 		outline: 0;
-		padding: 4px;
 		width: 100%;
 		margin-bottom: 20px;
 	}
 
 	h2 {
 		text-align: center;
-	}
-
-	label {
-		color: $light-grey;
-		display: inline-block;
-		margin-bottom: 10px;
-		text-align: center;
-		width: 100%;
-	}
-
-	input,
-	button {
-		box-sizing: border-box;
-		font-size: 14px;
-		outline: 0;
-		padding: 4px;
-		width: 100%;
-		margin-bottom: 20px;
 	}
 
 	button {
@@ -255,3 +292,11 @@ li {
 	border-color: #8dff1c !important;
 	width: 100% !important;
 }
+
+
+@media screen and (max-width: 600px) {
+	#form {
+		width: 100%;
+	}
+  }
+

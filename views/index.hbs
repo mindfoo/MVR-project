@@ -6,48 +6,43 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     
     <div class="navbar" id="navbarSupportedContent">
-        <div class="logo mr-4"><img src="#" alt="logo"/>MVR</div>
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
-            </li>
+        <a class="nav-link" href="/"><div class="logo mr-4"><img src="../images/logo.png" alt="logo"/>MVR</div></a>
             {{#if currentUser}}
-            <li class="nav-link">
-                <a href="/artist-search">Create Playlist</a>
-            </li>
-                {{!-- <li class="nav-link"><a href="/profile">My profile</a></li>
-                <li class="nav-link"><a href="/logout">Logout</a></li> --}}
-
+            <div class="right-align">
+                <li class="nav-link">
+                    <a href="/artist-search">Create Playlist</a>
+                </li>
                 <div class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                         <img src="{{currentUser.imgPath}}" width="40" height="40" class="rounded-circle">
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="/profile">My Profile</a>
-                                {{!-- <a class="dropdown-item" href="#">My Playlists</a> --}}
-                                <a class="dropdown-item" href="/profile/edit?user_id={{currentUser._id}}">Edit Profile</a>
-                                <a class="dropdown-item" href="/logout">Log Out</a>
+                            <a class="dropdown-item" href="/profile/edit?user_id={{currentUser._id}}">Edit Profile</a>
+                            <a class="dropdown-item" href="/logout">Log Out</a>
                     </div>
                 </div>
-
+            </div>
                 
             {{else}}
-                <li class="nav-link">
-                    <a href="/login">Login</a>
-                </li>
-                <li class="nav-link">
-                    <a href="/signup">Signup</a>
-                </li>
+                <div class="right-align">
+                    <li class="nav-link">
+                        <a href="/signup">Signup</a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/login">Login</a>
+                    </li>
+                </div>
             {{/if}}
         </div>
     </div>
-  
 </nav>
 
 <section class="content p-3">
     {{#if currentUser}}
-        <h3 class="title-light text-center mt-4">Welcome to MVR, {{currentUser.username}}!</h3>
+        <h3 class="title-light text-center mt-4 text-white">Welcome to MVR, {{currentUser.username}}!</h3>
     {{else}}
-        <h1 class="welcome display-4 text-center mt-5">Welcome to <div class="proj-name">{{title}}</div></h1>
+        <h1 class="welcome display-4 text-center mt-5 text-white">{{title}}<div class="proj-name">Music Virtual Rank</div></h1>
     {{/if}}
 
     {{#if currentUser}}
